@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cẩm nang — Côn Minh · Lệ Giang 2026</title>
+<!-- PWA / Offline-ready -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cẩm Nang TQ">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#120407">
+<meta name="description" content="Cẩm nang hành trình Côn Minh – Lệ Giang 2026. Checklist, Phrasebook, Lịch trình. Dùng được offline.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏮</text></svg>">
+<style>
+/* ── SYSTEM FONT STACKS — no external dependency ── */
+:root{
+  --f-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --f-serif: Georgia, 'Palatino Linotype', 'Times New Roman', serif;
+  --f-zh: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei', 'SimHei', 'Noto Sans CJK SC', sans-serif;
+}
+:root{
+  --ink:#241F18;--indigo:#192542;--indigo-2:#22325A;--indigo-3:#2C3F6E;
+  --paper:#F2ECDD;--card:#FBF8EF;
+  --red:#C0432B;--red-d:#9E3522;
+  --gold:#CB9C40;--gold-l:#E2C481;
+  --jade:#4C7A60;--jade-d:#3A5E4A;
+  --mist:#AEB7C9;--line:#DCD3BC;
+  --shadow:0 6px 20px -10px rgba(25,37,66,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
+.w{max-width:680px;margin:0 auto;padding:0 14px;}
+
+/* ── TOPBAR ── */
+.tb{position:sticky;top:0;z-index:60;background:rgba(25,37,66,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(226,196,129,.2);}
+.tb-in{max-width:680px;margin:0 auto;padding:0 14px;display:flex;align-items:stretch;gap:0;}
+.tb-brand{font-size:11.5px;color:var(--gold-l);font-weight:500;letter-spacing:.04em;flex:1;display:flex;align-items:center;}
+.tb-tabs{display:flex;}
+.tb-tab{padding:12px 16px;font-size:12.5px;font-weight:700;color:var(--mist);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .18s;font-family:var(--f-sans);letter-spacing:.01em;}
+.tb-tab.active{color:var(--gold-l);border-bottom-color:var(--gold);}
+.tb-tab:hover:not(.active){color:#fff;}
+.tb-right{display:flex;align-items:center;gap:8px;padding:0 0 0 10px;}
+.tb-bar{width:90px;height:5px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden;}
+.tb-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));width:0%;transition:width .4s;}
+.tb-n{font-size:10.5px;color:var(--mist);white-space:nowrap;}
+
+/* ── HERO ── */
+.hero{background:radial-gradient(ellipse at 20% -10%,rgba(203,156,64,.2),transparent 55%),linear-gradient(180deg,var(--indigo),var(--indigo-2));color:#fff;padding:24px 0 20px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;left:0;right:0;bottom:-2px;width:100%;opacity:.5;}
+.hero-in{position:relative;z-index:2;}
+.ey{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-l);font-weight:600;margin-bottom:6px;}
+.hero h1{font-family:var(--f-serif);font-size:24px;color:#fff;line-height:1.18;}
+.hero h1 em{font-style:normal;color:var(--gold-l);}
+.hero-d{font-size:12.5px;color:var(--mist);margin-top:5px;}
+.hero-d strong{color:#fff;font-weight:600;}
+.trow{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.tkt{background:rgba(255,255,255,.06);border:1px solid rgba(226,196,129,.2);border-radius:10px;padding:9px 11px;}
+.tkt-l{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold-l);margin-bottom:2px;}
+.tkt-v{font-size:12.5px;color:#fff;font-weight:600;}
+.tkt-s{font-size:11px;color:var(--mist);}
+.lantern-box{margin-top:14px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(226,196,129,.2);border-radius:12px;padding:11px 14px;}
+.lsvg{width:44px;height:60px;flex-shrink:0;filter:drop-shadow(0 0 0px rgba(203,156,64,0));transition:filter .5s;}
+.lsvg.glow{filter:drop-shadow(0 0 12px rgba(203,156,64,.55));}
+#lfr{transition:y .5s,height .5s;}
+.lt-t{font-size:13px;color:#fff;font-weight:600;}
+.lt-s{font-size:11.5px;color:var(--mist);margin-top:2px;}
+
+/* ── TAB PANELS ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ══════════════════════════
+   CHECKLIST STYLES
+══════════════════════════ */
+.cl-main{padding:20px 0 8px;}
+.sec-c{margin-bottom:20px;}
+.sec-head-c{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+.sec-n{width:25px;height:25px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-weight:700;font-size:11.5px;flex-shrink:0;}
+.sec-t{font-family:var(--f-serif);font-size:16px;color:var(--indigo);}
+.ban{background:linear-gradient(135deg,#fff,#F5EFE0);border:1px solid var(--line);border-radius:14px;overflow:hidden;height:88px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:8px;box-shadow:var(--shadow);}
+.card-c{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:5px;box-shadow:var(--shadow);margin-bottom:7px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;}
+.g1{display:grid;grid-template-columns:1fr;gap:5px;padding:5px;}
+.chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 9px;cursor:pointer;user-select:none;}
+.chip input{position:absolute;opacity:0;width:0;height:0;}
+.bx{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--gold);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .14s,border-color .14s;background:#fff;}
+.bx svg{width:9px;height:9px;opacity:0;transform:scale(.4);transition:opacity .13s,transform .13s;stroke:#fff;}
+.chip input:checked+.bx{background:var(--jade);border-color:var(--jade-d);}
+.chip input:checked+.bx svg{opacity:1;transform:scale(1);}
+.ct{font-size:12.5px;line-height:1.35;color:var(--ink);}
+.chip input:checked~.ct{color:#9a917a;text-decoration:line-through;text-decoration-color:#cfc6ae;}
+.ct b{color:var(--red-d);font-weight:600;}
+.tip-head{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--jade-d);font-weight:700;padding:8px 10px 4px;display:flex;align-items:center;gap:6px;}
+.tip-head::after{content:"";flex:1;height:1px;background:var(--line);}
+details.more{margin:3px 5px 8px;}
+details.more summary{font-size:11.5px;color:var(--indigo-3);cursor:pointer;font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:4px;}
+details.more summary::-webkit-details-marker{display:none;}
+details.more summary::before{content:"▸";font-size:9px;transition:transform .15s;}
+details.more[open] summary::before{transform:rotate(90deg);}
+.db{margin-top:6px;padding:9px 11px;background:#FFF9EC;border:1px solid var(--line);border-radius:9px;font-size:11.8px;color:#5b5444;}
+.db ul{padding-left:15px;}.db li{margin-bottom:3px;}
+.note{display:flex;gap:8px;align-items:flex-start;background:#FBF1E4;border:1px solid #E9D5A8;border-radius:9px;padding:9px 11px;margin:7px 0 4px;font-size:12px;color:#7A5A20;}
+.note svg{width:14px;height:14px;stroke:#B07F1F;flex-shrink:0;margin-top:1px;}
+.badge-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:6px 5px 10px;}
+.badge{text-align:center;}
+.bi{width:42px;height:42px;margin:0 auto 4px;border-radius:50%;background:#fff;border:1.5px solid var(--red);display:flex;align-items:center;justify-content:center;position:relative;}
+.bi svg{width:22px;height:22px;}
+.bi::after{content:"";position:absolute;width:52px;height:2px;background:var(--red);transform:rotate(-45deg);border-radius:2px;}
+.bl{font-size:9.8px;color:#5b5444;line-height:1.2;font-weight:500;}
+.app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:5px;}
+.app{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 7px;text-align:center;}
+.app-icon{width:32px;height:32px;border-radius:9px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;}
+.app-name{font-size:11px;font-weight:700;color:var(--ink);}
+.app-desc{font-size:10px;color:#7c7460;margin-top:1px;line-height:1.25;}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px;}
+.wc{background:linear-gradient(180deg,#fff,#F7F1E2);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center;}
+.wc.cold{border-color:var(--indigo-3);background:linear-gradient(180deg,#EFF2FA,#E4E9F6);}
+.wic{width:18px;height:18px;margin:0 auto 2px;}
+.wd{font-size:10.5px;color:#7c7460;font-weight:600;}
+.wh{font-family:var(--f-serif);font-size:15px;font-weight:600;color:var(--red-d);margin-top:2px;}
+.wc.cold .wh{color:var(--indigo-3);}
+.wl{font-size:10px;color:#8a8270;}
+.drink-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;}
+.dcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 10px;}
+.dcard.bad{border-color:#FABDB5;background:#FEF5F4;}
+.dcard.good{border-color:#B8D9C8;background:#F2FAF6;}
+.dlabel{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px;}
+.dcard.bad .dlabel{color:var(--red);}
+.dcard.good .dlabel{color:var(--jade-d);}
+.dname{font-size:12px;color:var(--ink);line-height:1.45;}
+.cc{background:var(--indigo);color:#fff;border-radius:13px;padding:14px 16px;}
+.cr{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12.5px;}
+.cr:last-child{border-bottom:none;}
+.ck{color:var(--mist);}.cv{color:#fff;font-weight:600;text-align:right;}
+.con{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(226,196,129,.3);font-size:11.5px;color:var(--mist);line-height:1.6;}
+.con b{color:var(--gold-l);display:block;font-size:12px;margin-bottom:2px;}
+
+/* ══════════════════════════
+   PHRASEBOOK STYLES
+══════════════════════════ */
+.pb-cats{position:sticky;top:46px;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);padding:8px 14px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.pb-cats::-webkit-scrollbar{display:none;}
+.pb-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:20px;border:1.5px solid var(--line);background:#fff;font-size:11.5px;font-weight:600;color:#6b6354;cursor:pointer;margin-right:5px;transition:all .15s;text-decoration:none;white-space:nowrap;}
+.pb-pill.active,.pb-pill:hover{color:#fff;border-color:transparent;}
+.pb-pill[data-cat="1"].active,.pb-pill[data-cat="1"]:hover{background:#C0432B;}
+.pb-pill[data-cat="2"].active,.pb-pill[data-cat="2"]:hover{background:#CB9C40;}
+.pb-pill[data-cat="3"].active,.pb-pill[data-cat="3"]:hover{background:#4C7A60;}
+.pb-pill[data-cat="4"].active,.pb-pill[data-cat="4"]:hover{background:#1A56A0;}
+.pb-pill[data-cat="5"].active,.pb-pill[data-cat="5"]:hover{background:#7B5EA7;}
+.pb-pill[data-cat="6"].active,.pb-pill[data-cat="6"]:hover{background:#C0432B;}
+.pb-pill[data-cat="7"].active,.pb-pill[data-cat="7"]:hover{background:#4C7A60;}
+.pb-pill[data-cat="8"].active,.pb-pill[data-cat="8"]:hover{background:#1A56A0;}
+.pb-pill[data-cat="9"].active,.pb-pill[data-cat="9"]:hover{background:#7B5EA7;}
+/* Number item TTS */
+.pb-pill[data-cat="all"].active{background:var(--indigo);border-color:var(--indigo);}
+/* place card — big ZH for showing to driver */
+.place-card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px;box-shadow:var(--shadow);position:relative;overflow:hidden;text-align:center;}
+.place-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:#4C7A60;}
+.place-zch{font-family:var(--f-zh);font-size:22px;font-weight:700;color:#C0432B;letter-spacing:.06em;line-height:1.2;}
+.place-pyn{font-size:11px;color:#8a7a6a;font-style:italic;margin-top:2px;}
+.place-vn{font-size:12px;font-weight:700;color:var(--ink);margin-top:5px;}
+.place-en{font-size:10.5px;color:#7c7460;margin-top:1px;}
+.srch-wrap{padding:9px 14px 5px;}
+.srch{width:100%;padding:8px 14px 8px 34px;border-radius:24px;border:1.5px solid var(--line);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23AEB7C9' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;font-family:var(--f-sans);font-size:12.5px;color:var(--ink);outline:none;}
+.srch::placeholder{color:var(--mist);}
+.srch:focus{border-color:var(--gold);}
+.pb-main{padding:14px 0 8px;}
+.pb-sec{padding:6px 0 4px;scroll-margin-top:95px;}
+.pb-sec-head{display:flex;align-items:center;gap:9px;padding:0 0 9px;}
+.pb-icon{width:33px;height:33px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.pb-title{font-size:15px;font-weight:700;color:var(--ink);}
+.pb-sub{font-size:10.5px;color:var(--mist);margin-top:1px;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:6px;}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.pc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
+.pb-sec[data-s="1"] .pc::before{background:#C0432B;}
+.pb-sec[data-s="2"] .pc::before{background:#CB9C40;}
+.pb-sec[data-s="3"] .pc::before{background:#4C7A60;}
+.pb-sec[data-s="4"] .pc::before{background:#1A56A0;}
+.pb-sec[data-s="5"] .pc::before{background:#7B5EA7;}
+.pb-sec[data-s="6"] .pc::before{background:#C0432B;}
+.pb-sec[data-s="7"] .pc::before{background:#4C7A60;}
+.pb-sec[data-s="8"] .pc::before{background:#1A56A0;}
+.pb-sec[data-s="9"] .pc::before{background:#7B5EA7;}
+.pb-sec[data-s="10"] .pc::before{background:#D35400;}
+.flg{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;opacity:.55;}
+.pb-sec[data-s="1"] .flg{color:#C0432B;} .pb-sec[data-s="2"] .flg{color:#CB9C40;} .pb-sec[data-s="3"] .flg{color:#4C7A60;} .pb-sec[data-s="4"] .flg{color:#1A56A0;} .pb-sec[data-s="5"] .flg{color:#7B5EA7;} .pb-sec[data-s="6"] .flg{color:#C0432B;}
+.pb-sec[data-s="7"] .flg{color:#4C7A60;} .pb-sec[data-s="8"] .flg{color:#1A56A0;} .pb-sec[data-s="9"] .flg{color:#7B5EA7;}
+.pb-sec[data-s="10"] .flg{color:#D35400;}
+.pb-pill[data-cat="10"].active,.pb-pill[data-cat="10"]:hover{background:#D35400;}
+.ni{cursor:pointer;transition:border-color .15s,background .15s;}
+.ni:hover{border-color:var(--gold);background:#FFFBF0;}
+.ni.ni-speaking{border-color:var(--jade);background:#EFF7F2;animation:ni-pop .4s ease;}
+@keyframes ni-pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.num-title::after{content:" · bấm ô để nghe";font-weight:400;opacity:.65;font-style:italic;}
+.vnt{font-size:13px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:6px;}
+.div-line{height:1px;background:var(--line);margin:6px 0;}
+.er{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;}
+.zr{display:flex;align-items:flex-start;gap:5px;}
+.ftag{font-size:9px;font-weight:700;color:#fff;border-radius:4px;padding:1.5px 4px;flex-shrink:0;margin-top:2px;letter-spacing:.04em;}
+.ftag.en{background:#1A56A0;}
+.ftag.zh{background:var(--red);}
+.ent{font-size:12px;color:#5b5444;line-height:1.35;}
+.zch{font-family:var(--f-zh);font-size:15px;font-weight:700;color:var(--red);line-height:1.3;letter-spacing:.04em;}
+.pyn{font-size:10.5px;color:#8a7a6a;font-style:italic;margin-top:1px;line-height:1.3;}
+.num-box{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px;margin-bottom:9px;box-shadow:var(--shadow);}
+.num-title{font-size:10px;font-weight:700;color:var(--jade);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.num-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.ni{text-align:center;padding:5px 3px;background:#fff;border:1px solid var(--line);border-radius:8px;}
+.nn{font-family:var(--f-zh);font-size:15px;font-weight:700;color:var(--red);}
+.np{font-size:9.5px;color:#8a7a6a;font-style:italic;margin-top:1px;}
+.nv{font-size:10px;color:var(--ink);font-weight:600;margin-top:1px;}
+.pb-tip{background:#FFF9EC;border:1px solid var(--gold-l);border-radius:11px;padding:9px 12px;margin-bottom:9px;font-size:12px;color:#7A5A20;display:flex;gap:7px;align-items:flex-start;}
+.pb-tip svg{width:13px;height:13px;stroke:#CB9C40;flex-shrink:0;margin-top:1px;}
+.pc.hidden{display:none;}
+.pb-sec.pb-hidden{display:none;}
+
+/* ── TEXT-TO-SPEECH ── */
+.spk-btn{background:none;border:none;cursor:pointer;font-size:12px;padding:0 1px;opacity:.38;transition:opacity .15s,transform .12s;flex-shrink:0;line-height:1;margin-top:1px;}
+.spk-btn:hover{opacity:.9;transform:scale(1.2);}
+.spk-btn.speaking{opacity:1;animation:spk-pulse .5s ease infinite alternate;}
+@keyframes spk-pulse{from{transform:scale(1)}to{transform:scale(1.3);filter:drop-shadow(0 0 3px var(--jade));}}
+.place-spk-row{display:flex;justify-content:center;gap:8px;margin-top:6px;}
+.place-spk{background:#fff;border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-size:11px;cursor:pointer;color:var(--ink);opacity:.55;transition:opacity .15s;display:flex;align-items:center;gap:3px;}
+.place-spk:hover{opacity:1;background:var(--paper);border-color:var(--gold);}
+.place-spk.speaking{opacity:1;border-color:var(--jade);color:var(--jade);animation:spk-pulse .5s ease infinite alternate;}
+.tts-bar{background:var(--indigo);color:var(--gold-l);font-size:11px;text-align:center;padding:5px 14px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tts-bar svg{width:12px;height:12px;stroke:var(--gold-l);}
+
+/* ── SHARED ── */
+.controls{display:flex;gap:8px;margin:14px 0 4px;}
+.btn{flex:1;padding:9px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--indigo);font-family:var(--f-sans);font-size:12.5px;font-weight:600;cursor:pointer;}
+.btn.p{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+footer{text-align:center;padding:20px 14px 40px;font-size:11px;color:#9a917a;}
+@media(max-width:400px){.g2{grid-template-columns:1fr;}.trow{grid-template-columns:1fr 1fr;}}
+@media print{.tb,.controls,.pb-cats,.srch-wrap,.it-daypills,.bn{display:none;}}
+
+/* ════════════════════════════════════
+   CHINA THEME + MOBILE REDESIGN
+════════════════════════════════════ */
+html,body{overflow-x:hidden;}
+body{-webkit-tap-highlight-color:transparent;}
+
+/* ── Hero: China Red gradient + gold grid ── */
+.hero{
+  background:
+    radial-gradient(ellipse at 15% -15%, rgba(203,156,64,.32), transparent 48%),
+    radial-gradient(ellipse at 88% 110%, rgba(192,67,43,.28), transparent 52%),
+    linear-gradient(155deg, #120407 0%, #1E0808 28%, #0D1B35 65%, #060E1E 100%);
+}
+.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(203,156,64,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(203,156,64,.07) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+
+/* ── Topbar red accent ── */
+.tb{border-bottom:2px solid rgba(192,67,43,.7) !important;}
+.tb-tab{font-size:12px;padding:13px 14px;}
+.tb-tab.active{color:var(--gold-l);border-bottom-color:var(--red);}
+
+/* ── Card depth enhancement ── */
+.card-c,.card,.num-box,.pc,.place-card,.it-c,.wc{
+  box-shadow:0 4px 20px -8px rgba(192,67,43,.12), 0 2px 8px -4px rgba(0,0,0,.10) !important;
+}
+.it-head{box-shadow:0 6px 24px -8px rgba(0,0,0,.4) !important;}
+
+/* ── Bigger touch targets on mobile ── */
+.chip{min-height:48px;}
+.it-c{border-radius:13px;}
+.pb-pill{padding:6px 13px;}
+
+/* ── Bottom navigation bar (mobile) ── */
+.bn{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:65;
+  background:rgba(8,8,16,.97);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1.5px solid rgba(192,67,43,.5);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media(max-width:640px){
+  .bn{display:flex;}
+  body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px));}
+  .tb-tabs{display:none;}
+  .tb-brand{font-size:11px;letter-spacing:.05em;}
+  .tb-right{gap:5px;}
+  .tb-bar{max-width:70px;}
+  .lantern-box{padding:10px 12px;}
+  .trow{gap:6px;}
+  .wgrid{grid-template-columns:repeat(3,1fr);}
+  .pgrid{grid-template-columns:1fr 1fr;}
+  .g2{grid-template-columns:1fr 1fr;}
+  .it-tl{padding-left:52px;}
+  .it-tl::before{left:36px;}
+  .it-tm{left:-52px;width:34px;font-size:10px;}
+  .it-entry::before{left:-16px;}
+  .vnt{font-size:12.5px;}
+  .zch{font-size:14px;}
+  .hero h1{font-size:22px;}
+  .it-route{font-size:17px;}
+}
+@media(max-width:360px){
+  .pgrid,.g2{grid-template-columns:1fr;}
+  .badge-row{grid-template-columns:repeat(4,1fr);}
+}
+.bn-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;padding:10px 6px 8px;
+  border:none;background:none;cursor:pointer;
+  font-family:var(--f-sans);position:relative;
+  transition:background .18s;-webkit-tap-highlight-color:transparent;
+}
+.bn-tab::after{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:2px;
+  background:var(--red);border-radius:0 0 2px 2px;
+  transform:scaleX(0);transition:transform .2s;
+}
+.bn-tab.active::after{transform:scaleX(1);}
+.bn-icon{font-size:22px;line-height:1;transition:transform .18s;filter:grayscale(.6)opacity(.6);}
+.bn-label{font-size:9.5px;color:rgba(255,255,255,.38);font-weight:700;letter-spacing:.05em;transition:color .18s;}
+.bn-tab.active .bn-icon{filter:none;transform:translateY(-1px);}
+.bn-tab.active .bn-label{color:var(--gold-l);}
+.bn-tab:active .bn-icon{transform:scale(.88);}
+
+/* ── Itinerary header china-red top border ── */
+.it-head{border-top:3px solid rgba(203,156,64,.5);}
+.it-head-d1{background:linear-gradient(140deg,#0A0E1E,#192542);}
+.it-head-d2{background:linear-gradient(140deg,#071428,#1A56A0);}
+.it-head-d3{background:linear-gradient(140deg,#160404,#9E3522);}
+.it-head-d4{background:linear-gradient(140deg,#041410,#3A5E4A);}
+.it-head-d5{background:linear-gradient(140deg,#0E0818,#5A3D8A);}
+.it-head-d6{background:linear-gradient(140deg,#160E00,#9E7B20);}
+
+/* ── Chinese calligraphy red seal on day pill ── */
+.it-dp[data-day="1"].active{background:linear-gradient(135deg,#192542,#0D1B35);}
+.it-dp[data-day="2"].active{background:linear-gradient(135deg,#1A56A0,#0F3570);}
+.it-dp[data-day="3"].active{background:linear-gradient(135deg,#C0432B,#9E3522);}
+.it-dp[data-day="4"].active{background:linear-gradient(135deg,#4C7A60,#3A5E4A);}
+.it-dp[data-day="5"].active{background:linear-gradient(135deg,#7B5EA7,#5A3D8A);}
+.it-dp[data-day="6"].active{background:linear-gradient(135deg,#CB9C40,#9E7B20);}
+
+/* ── Phrasebook improvements ── */
+.tts-bar{
+  background:linear-gradient(90deg,#1A0808,#0D1B35);
+  border-bottom:1px solid rgba(203,156,64,.2);
+}
+.pb-sec-head{padding-bottom:8px;border-bottom:1px solid var(--line);}
+.pb-title{font-size:16px;}
+
+/* ── Search input ── */
+.srch{font-size:16px !important;}/* prevent iOS zoom */
+
+/* ── Scrollbar hide ── */
+.pb-cats,.it-daypills,.cats{-ms-overflow-style:none;scrollbar-width:none;}
+.pb-cats::-webkit-scrollbar,.it-daypills::-webkit-scrollbar,.cats::-webkit-scrollbar{display:none;}
+
+/* ── OFFLINE BANNER ── */
+#offlineBanner{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:999;
+  background:linear-gradient(90deg,#3B0A00,#6B2000);
+  color:#FFD6C0;font-size:12px;font-weight:600;
+  padding:9px 16px;align-items:center;justify-content:center;gap:8px;
+  border-bottom:1px solid rgba(255,120,0,.35);
+  animation:slideDown .3s ease;
+}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+#offlineBanner svg{width:13px;height:13px;stroke:#FFD6C0;flex-shrink:0;}
+
+/* ── INSTALL HINT ── */
+.install-hint{
+  display:flex;align-items:flex-start;gap:10px;
+  background:linear-gradient(135deg,#1A0808,#0D1B35);
+  border:1px solid rgba(203,156,64,.3);border-radius:13px;
+  padding:12px 14px;margin:14px 0 6px;color:var(--gold-l);font-size:12px;line-height:1.5;
+}
+.install-hint svg{width:20px;height:20px;stroke:var(--gold-l);flex-shrink:0;margin-top:1px;}
+.install-hint b{color:#fff;}
+.install-hint .steps{color:var(--mist);font-size:11px;margin-top:4px;line-height:1.6;}
+
+/* ── SAFE AREA (iPhone notch/home bar) ── */
+.tb-in{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));}
+
+/* ── Footer ── */
+footer{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--paper),#EDE5D0);}
+
+
+/* ══ ITINERARY ══ */
+.it-daypills{position:sticky;top:46px;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);padding:8px 14px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.it-daypills::-webkit-scrollbar{display:none;}
+.it-dp{display:inline-flex;flex-direction:column;align-items:center;padding:5px 12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:10.5px;font-weight:700;color:#6b6354;cursor:pointer;margin-right:6px;transition:all .15s;text-decoration:none;white-space:nowrap;}
+.it-dp span{font-size:9px;font-weight:500;color:var(--mist);margin-top:1px;}
+.it-dp.active,.it-dp:hover{color:#fff;border-color:transparent;}
+.it-dp[data-day="1"].active,.it-dp[data-day="1"]:hover{background:#192542;}
+.it-dp[data-day="2"].active,.it-dp[data-day="2"]:hover{background:#1A56A0;}
+.it-dp[data-day="3"].active,.it-dp[data-day="3"]:hover{background:#C0432B;}
+.it-dp[data-day="4"].active,.it-dp[data-day="4"]:hover{background:#4C7A60;}
+.it-dp[data-day="5"].active,.it-dp[data-day="5"]:hover{background:#7B5EA7;}
+.it-dp[data-day="6"].active,.it-dp[data-day="6"]:hover{background:#CB9C40;}
+.it-day{display:none;padding:14px 0 20px;}
+.it-day.active{display:block;}
+.it-head{border-radius:14px;padding:14px 16px 12px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden;}
+.it-head-d1{background:linear-gradient(135deg,#192542,#2C3F6E);}
+.it-head-d2{background:linear-gradient(135deg,#1A56A0,#2E77C8);}
+.it-head-d3{background:linear-gradient(135deg,#9E3522,#C0432B);}
+.it-head-d4{background:linear-gradient(135deg,#3A5E4A,#4C7A60);}
+.it-head-d5{background:linear-gradient(135deg,#5A3D8A,#7B5EA7);}
+.it-head-d6{background:linear-gradient(135deg,#9E7B20,#CB9C40);}
+.it-head-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.it-daynum{font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.7;font-weight:600;}
+.it-date{font-size:11px;font-weight:600;opacity:.85;}
+.it-route{font-family:var(--f-serif);font-size:18px;font-weight:600;margin-top:5px;line-height:1.2;}
+.it-meals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.it-meal{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:20px;font-size:10px;padding:3px 8px;}
+.it-ks{font-size:10.5px;opacity:.75;margin-top:6px;}
+/* SVG scene */
+.it-scene{width:100%;height:72px;border-radius:10px;overflow:hidden;margin-bottom:12px;}
+/* Timeline */
+.it-tl{position:relative;padding-left:58px;}
+.it-tl::before{content:"";position:absolute;left:42px;top:6px;bottom:6px;width:2px;background:var(--line);border-radius:2px;}
+.it-entry{position:relative;margin-bottom:9px;display:flex;align-items:flex-start;gap:0;}
+.it-entry::before{content:"";position:absolute;left:-18px;top:10px;width:9px;height:9px;border-radius:50%;border:2px solid var(--paper);z-index:1;}
+.it-entry.eat::before{background:#CB9C40;}
+.it-entry.go::before{background:#1A56A0;}
+.it-entry.see::before{background:#4C7A60;}
+.it-entry.fly::before{background:#7B5EA7;}
+.it-entry.sleep::before{background:#192542;}
+.it-entry.note::before{background:#AEB7C9;}
+.it-tm{position:absolute;left:-58px;top:8px;width:36px;text-align:right;font-size:11px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1;}
+.it-c{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 11px;flex:1;}
+.it-c-top{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.it-ico{font-size:14px;line-height:1;}
+.it-ttl{font-size:12.5px;font-weight:700;color:var(--ink);}
+.it-dsc{font-size:11.5px;color:#6b6354;line-height:1.4;}
+.it-tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.itag{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:20px;}
+.itag.inc{background:#E8F5EE;color:#2D6B45;border:1px solid #B8D9C8;}
+.itag.fee{background:#FDF8EC;color:#8A6010;border:1px solid #E2C481;}
+.itag.self{background:#F0F0F0;color:#666;border:1px solid #ddd;}
+.itag.warn{background:#FEF3F1;color:#9E3522;border:1px solid #FABDB5;}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<div class="tb">
+  <div class="tb-in">
+    <div class="tb-brand">🔴 CÔN MINH · LỆ GIANG</div>
+    <div class="tb-tabs">
+      <button class="tb-tab active" onclick="switchTab('cl',this)">📋 Checklist</button>
+      <button class="tb-tab" onclick="switchTab('pb',this)">🗣️ Phrasebook</button>
+      <button class="tb-tab" onclick="switchTab('it',this)">📅 Lịch trình</button>
+    </div>
+    <div class="tb-right" id="tb-right">
+      <div class="tb-bar"><div class="tb-fill" id="tbf"></div></div>
+      <div class="tb-n" id="tbn">0/0</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ OFFLINE BANNER ══ -->
+<div id="offlineBanner">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+  📵 Đang offline — file hoạt động bình thường, không cần mạng!
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <svg class="hero-bg" viewBox="0 0 760 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,140 L0,90 L90,40 L150,75 L230,20 L300,70 L370,35 L450,85 L520,45 L600,95 L680,55 L760,90 L760,140Z" fill="#22325A" opacity=".7"/>
+    <path d="M0,140 L0,110 L120,65 L210,100 L290,55 L380,100 L470,60 L560,105 L650,70 L760,110 L760,140Z" fill="#192542" opacity=".9"/>
+  </svg>
+  <div class="w hero-in">
+    <div class="ey">🇨🇳 Cẩm nang hành trình · Vân Nam 2026</div>
+    <h1>Côn Minh <em>·</em> Lệ Giang</h1>
+    <div class="hero-d">Bay <strong>02/07</strong> · Về <strong>07/07</strong> · HDV <strong>Đoàn Anh Trâm</strong> · <strong>0908 327 871</strong></div>
+    <div class="trow">
+      <div class="tkt"><div class="tkt-l">Chặng đi · MU9634</div><div class="tkt-v">SGN → KMG</div><div class="tkt-s">02/07 · 19:10–23:05</div></div>
+      <div class="tkt"><div class="tkt-l">Chặng về · MU9633</div><div class="tkt-v">KMG → SGN</div><div class="tkt-s">07/07 · 15:55–18:10</div></div>
+    </div>
+    <div class="lantern-box" id="lanternBox">
+      <svg class="lsvg" id="lsvg" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="lf" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#9E3522"/><stop offset="100%" stop-color="#E2C481"/></linearGradient><clipPath id="lc"><rect x="10" y="15" width="80" height="110" rx="36"/></clipPath></defs>
+        <rect x="34" y="3" width="32" height="9" rx="3" fill="#CB9C40"/>
+        <rect x="34" y="128" width="32" height="9" rx="3" fill="#CB9C40"/>
+        <rect x="10" y="15" width="80" height="110" rx="36" fill="rgba(255,255,255,.06)" stroke="#CB9C40" stroke-width="2"/>
+        <g clip-path="url(#lc)"><rect id="lfr" x="10" y="125" width="80" height="0" fill="url(#lf)"/></g>
+        <g stroke="#CB9C40" stroke-opacity=".3" stroke-width="1"><line x1="28" y1="15" x2="28" y2="125"/><line x1="50" y1="15" x2="50" y2="125"/><line x1="72" y1="15" x2="72" y2="125"/></g>
+        <text id="lp" x="50" y="76" text-anchor="middle" font-size="20" fill="#fff">0%</text>
+      </svg>
+      <div><div class="lt-t">Đèn lồng hành trình</div><div class="lt-s" id="ls">Tick các mục để thắp sáng đèn lồng.</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════
+     PANEL 1 — CHECKLIST
+══════════════════════════════════ -->
+<div class="panel active" id="panel-cl">
+<main class="w cl-main">
+
+<!-- Install hint — shown before first section -->
+<div class="install-hint" id="installHint">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 2v13M8 11l4 4 4-4"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg>
+  <div>
+    <b>💾 Lưu file để dùng offline</b>
+    <div class="steps">
+      <b>📱 iOS Safari:</b> Nút Chia sẻ → <b>"Thêm vào Màn hình chính"</b><br>
+      <b>🤖 Android Chrome:</b> Menu ⋮ → <b>"Thêm vào Màn hình chính"</b><br>
+      <b>💻 Máy tính:</b> Lưu trang (Ctrl+S) → mở file .html lúc offline<br>
+      <span style="color:var(--gold-l);font-size:10.5px;">⚡ Hoặc: giữ file HTML này trong bộ nhớ điện thoại — mở bằng trình duyệt lúc nào cũng được!</span>
+    </div>
+  </div>
+</div>
+
+<!-- 01 Trước ngày bay -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">01</div><div class="sec-t">Trước ngày bay</div></div>
+  <div class="ban"><svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg"><rect x="62" y="30" width="88" height="66" rx="10" fill="#C0432B"/><rect x="62" y="30" width="88" height="10" rx="10" fill="#9E3522"/><line x1="62" y1="56" x2="150" y2="56" stroke="#CB9C40" stroke-width="4"/><line x1="62" y1="80" x2="150" y2="80" stroke="#CB9C40" stroke-width="4"/><circle cx="72" cy="92" r="5" fill="#192542"/><circle cx="140" cy="92" r="5" fill="#192542"/><rect x="82" y="18" width="28" height="14" rx="5" fill="none" stroke="#9E3522" stroke-width="3.5"/><g transform="translate(14,10) rotate(-10)"><rect x="0" y="0" width="44" height="60" rx="5" fill="#192542"/><circle cx="22" cy="22" r="8" fill="none" stroke="#E2C481" stroke-width="2"/><line x1="22" y1="38" x2="22" y2="46" stroke="#E2C481" stroke-width="1.8"/><line x1="14" y1="42" x2="30" y2="42" stroke="#E2C481" stroke-width="1.8"/></g><g transform="translate(148,14) rotate(12)"><rect x="0" y="0" width="44" height="28" rx="4" fill="#FBF8EF" stroke="#CB9C40" stroke-width="2"/><circle cx="32" cy="14" r="6" fill="none" stroke="#4C7A60" stroke-width="2"/><path d="M28 14l3 3 5-6" stroke="#4C7A60" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="5" y1="8" x2="18" y2="8" stroke="#C0432B" stroke-width="2"/><line x1="5" y1="14" x2="18" y2="14" stroke="#C0432B" stroke-width="2"/></g></svg></div>
+  <div class="card-c">
+    <div class="tip-head">📋 Giấy tờ</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Hộ chiếu còn hạn <b>&gt;6 tháng</b>, nguyên vẹn</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Trẻ em: mang <b>khai sinh</b> (hoặc giấy uỷ quyền)</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">2 quốc tịch: mang <b>cả 2 hộ chiếu</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Hoàn thành <b>nghĩa vụ thuế</b> trước khi xuất cảnh</span></label>
+    </div>
+    <div class="tip-head">💴 Tiền tệ</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Đổi sẵn <b>RMB tiền mặt</b> (≤35.000 RMB)</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Dự phòng <b>ZaloPay / MoMo</b> — quét được QR WeChat</span></label>
+    </div>
+    <div class="tip-head">📱 Công nghệ</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Mua <b>eSIM 5G du lịch</b> — loại dùng được TikTok, MXH</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Sạc dự phòng 3C</b> + ổ chuyển đổi (ổ TQ ≈ VN)</span></label>
+    </div>
+    <div class="tip-head">🧳 Hành lý</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Khăn giấy khô thật nhiều</b> — nhà VS không có sẵn giấy</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Giấy ướt + <b>son dưỡng môi</b> (thời tiết hanh khô)</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Dép lào + <b>giày thể thao êm</b> (đi bộ nhiều)</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Ô + mũ chống nắng</b> (tháng 7–8 mưa nhiều)</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Dép, bàn chải, kem đánh răng <b>(ks không cung cấp)</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Mì tôm + <b>tương ớt, nước mắm, muối chấm Hảo Hảo</b></span></label>
+    </div>
+    <div class="tip-head">💊 Thuốc</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Men vi sinh + Berberin</b> (viên đen) — tiêu hoá, tiêu chảy</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Thuốc <b>cảm cúm, dị ứng, đau đầu</b></span></label>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Sân bay -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">02</div><div class="sec-t">Tại sân bay</div></div>
+  <div class="ban"><svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="36" rx="18" ry="8" fill="#fff" opacity=".8"/><ellipse cx="95" cy="24" rx="13" ry="6" fill="#fff" opacity=".7"/><ellipse cx="168" cy="40" rx="15" ry="7" fill="#fff" opacity=".6"/><g transform="translate(38,48) rotate(-16)"><path d="M0 16 L68 16 L88 7 L96 7 L96 15 L76 22 L76 30 L88 34 L88 40 L68 34 L0 34Z" fill="#C0432B"/><path d="M68 16 L85 3 L93 3 L82 16Z" fill="#9E3522"/><circle cx="12" cy="25" r="3" fill="#fff"/><circle cx="24" cy="25" r="3" fill="#fff"/><circle cx="36" cy="25" r="3" fill="#fff"/></g><ellipse cx="110" cy="95" rx="92" ry="4" fill="#241F18" opacity=".06"/></svg></div>
+  <div class="card-c">
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Có mặt <b>16:10</b> · cổng <b>D2</b> ga quốc tế Tân Sơn Nhất</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Xách tay <b>≤7kg</b> · ký gửi <b>≤23kg</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Tiền mặt: VND ≤15tr · Ngoại tệ ≤5.000 USD</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Không <b>chất lỏng &gt;100ml</b> trong xách tay</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Không xách hộ hành lý <b>người lạ</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Tắt điện thoại khi lên máy bay</span></label>
+    </div>
+  </div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg><span><b>China Eastern Airlines</b>. Bay nối chuyến → bám sát trưởng đoàn.</span></div>
+</section>
+
+<!-- 03 Nhập cảnh -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">03</div><div class="sec-t">Nhập cảnh Trung Quốc</div></div>
+  <div class="card-c">
+    <div class="tip-head">🚫 Không được làm</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Đùa về <b>an ninh / bom / khủng bố</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Bàn <b>chính trị, biên giới, lịch sử chiến tranh</b></span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Tặng <b>đồng hồ</b>, né số <b>4</b> — điềm xấu</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Khạc nhổ, xả rác nơi công cộng</span></label>
+    </div>
+    <div class="tip-head">🧳 Đồ cấm mang vào</div>
+    <div class="badge-row">
+      <div class="badge"><div class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="#C0432B" stroke-width="1.8"><path d="M12 3c3 2 4 5 4 8a4 4 0 11-8 0c0-3 1-6 4-8z"/></svg></div><div class="bl">Trái cây tươi</div></div>
+      <div class="badge"><div class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="#C0432B" stroke-width="1.8"><path d="M3 9l4 2v6l5 3 5-3v-6l4-2-9-5-9 5z"/></svg></div><div class="bl">Động vật / côn trùng sống</div></div>
+      <div class="badge"><div class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="#C0432B" stroke-width="1.8"><path d="M5 18c2-5 4-9 8-12 1 4-1 7-3 9 3-1 6 0 8 3-5 2-9 2-13 0z"/></svg></div><div class="bl">Thịt, trứng, sữa thô</div></div>
+      <div class="badge"><div class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="#C0432B" stroke-width="1.8"><path d="M4 20L16 8M16 8l4-4M16 8l-3-3"/></svg></div><div class="bl">Dao kéo, chất nổ</div></div>
+    </div>
+    <details class="more"><summary>Xem danh mục đầy đủ</summary><div class="db"><ul><li>Trái cây tươi/ướp lạnh, cây từ vùng dịch, côn trùng và động vật sống</li><li>Thịt tươi/đông lạnh/chế biến, trứng lộn, sữa thô, huyết thanh, cá đông lạnh</li><li>Da, xương, sừng, móng chưa xử lý; mỡ thô; tổ yến thô; thức ăn vật nuôi thô</li><li>Vật sắc nhọn, chất nổ, chất ăn mòn, diêm que</li></ul></div></details>
+  </div>
+</section>
+
+<!-- 04 Trong chuyến -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">04</div><div class="sec-t">Trong chuyến đi</div></div>
+  <div class="ban"><svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="18" x2="210" y2="18" stroke="#CB9C40" stroke-width="1.5" opacity=".5"/><circle cx="40" cy="28" r="7" fill="#C0432B"/><rect x="37" y="18" width="6" height="8" fill="#CB9C40"/><circle cx="80" cy="30" r="6" fill="#E2C481"/><rect x="77" y="21" width="6" height="7" fill="#9E3522"/><circle cx="140" cy="28" r="7" fill="#C0432B"/><rect x="137" y="18" width="6" height="8" fill="#CB9C40"/><circle cx="180" cy="31" r="6" fill="#E2C481"/><rect x="177" y="22" width="6" height="7" fill="#9E3522"/><path d="M0,100 L0,70 L24,70 L24,46 L40,46 L40,70 L60,70 L60,36 L82,36 L82,70 L100,70 L100,100Z" fill="#192542"/><path d="M100,100 L100,70 L120,70 L120,40 L142,40 L142,70 L160,70 L160,52 L182,52 L182,70 L220,70 L220,100Z" fill="#22325A"/></svg></div>
+  <div class="card-c">
+    <div class="tip-head">🏨 Khách sạn</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Kiểm tra phòng khi nhận, báo ngay HDV nếu hỏng/thiếu</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Gửi chìa khoá lễ tân; <b>không để đồ giá trị</b> trong phòng</span></label>
+    </div>
+    <div class="tip-head">🚶 An toàn</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Luôn theo đoàn &amp; HDV</b>, không tự ý tách đoàn</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Mang <b>toàn bộ tư trang</b> mỗi khi xuống xe</span></label>
+    </div>
+    <div class="tip-head">🛍️ Mua sắm & vé show</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct"><b>Tự đặt vé show</b> qua app Trip — đặt qua HDV bị đội giá</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Ở chợ nên <b>trả giá</b>; hàng điện tử xem kỹ điện thế</span></label>
+    </div>
+    <div class="tip-head">🌡️ Khác</div>
+    <div class="g2">
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Giờ TQ <b>nhanh hơn VN 1 tiếng</b> — chỉnh đồng hồ ngay</span></label>
+      <label class="chip"><input type="checkbox"><span class="bx"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><span class="ct">Gặp sự cố: gọi ngay <b>HDV hoặc trưởng đoàn</b></span></label>
+    </div>
+  </div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg><span>Ngày <b>05/07</b> lạnh nhất (15°–10°C) — nhớ mặc áo ấm!</span></div>
+  <div class="wgrid">
+    <div class="wc"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#CB9C40" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><div class="wd">02/07</div><div class="wh">25°</div><div class="wl">18°</div></div>
+    <div class="wc"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#CB9C40" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><div class="wd">03/07</div><div class="wh">24°</div><div class="wl">20°</div></div>
+    <div class="wc"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><path d="M7 17a4 4 0 010-8 5 5 0 019.6-1.5A4 4 0 0117 17H7z"/></svg><div class="wd">04/07</div><div class="wh">24°</div><div class="wl">18°</div></div>
+    <div class="wc cold"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#2C3F6E" stroke-width="1.8"><path d="M7 15a4 4 0 010-8 5 5 0 019.6-1.5A4 4 0 0117 15H7z"/><path d="M9 18v2M12 18v2M15 18v2"/></svg><div class="wd">05/07 🥶</div><div class="wh">15°</div><div class="wl">10°</div></div>
+    <div class="wc"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8"><path d="M7 17a4 4 0 010-8 5 5 0 019.6-1.5A4 4 0 0117 17H7z"/></svg><div class="wd">06/07</div><div class="wh">21°</div><div class="wl">13°</div></div>
+    <div class="wc"><svg class="wic" viewBox="0 0 24 24" fill="none" stroke="#CB9C40" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><div class="wd">07/07</div><div class="wh">23°</div><div class="wl">16°</div></div>
+  </div>
+</section>
+
+<!-- 05 Apps -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">05</div><div class="sec-t">Apps không thể thiếu</div></div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg><span>VPN thông thường <b>không xài được ở TQ</b> (Nord, Express, Proton, v2ray). Dùng <b>eSIM du lịch chuyên dụng</b>.</span></div>
+  <div class="card-c">
+    <div class="app-grid">
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#1677FF,#06A7E8);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 12h6M9 16h4M7 4h10l2 2v14H5V6l2-2z"/><circle cx="12" cy="9" r="2"/></svg></div><div class="app-name">Alipay</div><div class="app-desc">Thanh toán, mini-app, chọn món QR</div></div>
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#07C160,#0A9E52);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15c0 4.4-4 8-9 8-1.4 0-2.7-.3-3.9-.8L3 23l1.8-4A8 8 0 013 15c0-4.4 4-8 9-8s9 3.6 9 8z"/></svg></div><div class="app-name">WeChat</div><div class="app-desc">Chat, thanh toán QR</div></div>
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#FF7B00,#FFA040);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div><div class="app-name">Amap / Baidu</div><div class="app-desc">Chỉ đường siêu chính xác</div></div>
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#E93A3A,#C0432B);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="app-name">Dianping</div><div class="app-desc">Review quán ăn</div></div>
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#0070CC,#005BB5);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="app-name">Trip.com</div><div class="app-desc">Đặt vé tàu, vé show</div></div>
+      <div class="app"><div class="app-icon" style="background:linear-gradient(135deg,#555,#333);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div><div class="app-name">Screen Translator</div><div class="app-desc">Dịch màn hình, đọc menu</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Ăn uống -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">06</div><div class="sec-t">Ăn uống</div></div>
+  <div class="card-c">
+    <div class="drink-row">
+      <div class="dcard bad"><div class="dlabel">❌ Tránh xa</div><div class="dname"><b>Chagee</b> — vừa mắc vừa dở</div></div>
+      <div class="dcard good"><div class="dlabel">✅ Nên thử</div><div class="dname"><b>Heytea</b> ⭐ · Good Me · Chapanda · Auntea · Molly Tea</div></div>
+    </div>
+    <div style="padding:5px 5px 0;">
+      <div class="chip" style="cursor:default;margin-bottom:5px;"><span style="font-size:17px;">☕</span><span class="ct">Cà phê: <b style="color:var(--jade-d)">Luckin Coffee</b> — ngon &amp; rẻ</span></div>
+      <div class="chip" style="cursor:default;"><span style="font-size:17px;">🧻</span><span class="ct">Quán ăn tính phí giấy ~3 tệ/gói — <b>mang khăn giấy riêng</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 Liên hệ -->
+<section class="sec-c">
+  <div class="sec-head-c"><div class="sec-n">07</div><div class="sec-t">Liên hệ khẩn cấp</div></div>
+  <div class="cc">
+    <div class="cr"><span class="ck">HDV — Đoàn Anh Trâm</span><span class="cv">0908 327 871</span></div>
+    <div class="cr"><span class="ck">Hotline hỗ trợ nhanh</span><span class="cv">0901 330 016</span></div>
+    <div class="cr"><span class="ck">Cảnh sát TQ</span><span class="cv">110</span></div>
+    <div class="cr"><span class="ck">Cấp cứu TQ</span><span class="cv">120</span></div>
+    <div class="cr"><span class="ck">Gọi về VN</span><span class="cv">00 + 84 + số máy</span></div>
+    <div class="con"><b>Tổng Lãnh sự quán VN tại Côn Minh</b>Room 507, Hong Ta Mansion, 155 Beijing Road · ĐT: 86-871-3522669</div>
+  </div>
+</section>
+
+<div class="controls">
+  <button class="btn" id="resetBtn">↺ Đặt lại</button>
+  <button class="btn p" onclick="window.print()">🖨️ In / PDF</button>
+</div>
+</main>
+</div><!-- /panel-cl -->
+
+<!-- ══════════════════════════════════
+     PANEL 2 — PHRASEBOOK
+══════════════════════════════════ -->
+<div class="panel" id="panel-pb">
+  <div class="pb-cats">
+    <a class="pb-pill active" data-cat="all" href="#">🗂️ Tất cả</a>
+    <a class="pb-pill" data-cat="1" href="#pb-s1">👋 Chào hỏi & Khen</a>
+    <a class="pb-pill" data-cat="2" href="#pb-s2">🛍️ Mua sắm</a>
+    <a class="pb-pill" data-cat="3" href="#pb-s3">🍜 Ăn uống</a>
+    <a class="pb-pill" data-cat="4" href="#pb-s4">🚗 Di chuyển</a>
+    <a class="pb-pill" data-cat="5" href="#pb-s5">📸 Chụp hình</a>
+    <a class="pb-pill" data-cat="6" href="#pb-s6">🆘 Khẩn cấp</a>
+    <a class="pb-pill" data-cat="7" href="#pb-s7">🗺️ Địa danh</a>
+    <a class="pb-pill" data-cat="8" href="#pb-s8">🚂 Tàu & Cáp treo</a>
+    <a class="pb-pill" data-cat="9" href="#pb-s9">🍲 Đặc sản</a>
+    <a class="pb-pill" data-cat="10" href="#pb-s10">🍽️ Gọi món thêm</a>
+  </div>
+  <div class="srch-wrap"><input class="srch" type="text" id="srch" placeholder="Tìm câu... (vd: cảm ơn, how much, 谢谢)"></div>
+  <div class="tts-bar"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>Bấm <b>🔊</b> trước câu để nghe phát âm tiếng Anh hoặc tiếng Trung</div>
+
+  <main class="w pb-main">
+
+  <!-- 01 Chào hỏi -->
+  <section class="pb-sec" data-s="1" id="pb-s1">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#FEF3F1;">👋</div><div><div class="pb-title">Chào hỏi & Khen ngợi</div><div class="pb-sub">Greetings · Getting to Know · Compliments</div></div></div>
+    <div class="pgrid">
+      <!-- ── Chào hỏi cơ bản ── -->
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Xin chào!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Hello!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你好！</div><div class="pyn">Nǐ hǎo!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Buổi sáng / chiều / tối tốt lành!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Good morning / afternoon / evening!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">早上好！/ 下午好！/ 晚上好！</div><div class="pyn">Zǎoshang hǎo! / Xiàwǔ hǎo! / Wǎnshang hǎo!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cảm ơn!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Thank you!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">谢谢！</div><div class="pyn">Xièxiè!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không có chi / Không sao</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">You're welcome / No problem</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">不客气 / 没关系</div><div class="pyn">Bù kèqì / Méi guānxi</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Xin lỗi!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Excuse me / Sorry!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">对不起！/ 不好意思！</div><div class="pyn">Duìbuqǐ! / Bù hǎoyìsi!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Vâng / Đúng · Không</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Yes · No</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">是 / 对 · 不 / 不是</div><div class="pyn">Shì / Duì · Bù / Bú shì</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi không hiểu</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I don't understand</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我听不懂</div><div class="pyn">Wǒ tīng bù dǒng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Nói chậm hơn được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can you speak slower?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">请说慢一点</div><div class="pyn">Qǐng shuō màn yīdiǎn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn nói tiếng Anh được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Do you speak English?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你会说英语吗？</div><div class="pyn">Nǐ huì shuō Yīngyǔ ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tạm biệt! · Chúc ngủ ngon!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Goodbye! · Good night!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再见！/ 晚安！</div><div class="pyn">Zàijiàn! / Wǎn'ān!</div></div></div></div>
+
+      <!-- ── Làm quen & Hỏi thăm ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:4px 0 2px;padding-top:6px;border-top:1px dashed var(--line);"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--jade-d);font-weight:700;">🤝 Làm quen & Hỏi thăm</span></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn khỏe không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">How are you?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你好吗？</div><div class="pyn">Nǐ hǎo ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi khỏe, cảm ơn!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm fine, thank you!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我很好，谢谢！</div><div class="pyn">Wǒ hěn hǎo, xièxiè!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn tên là gì?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What's your name?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你叫什么名字？</div><div class="pyn">Nǐ jiào shénme míngzì?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi tên là...</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">My name is...</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我叫...</div><div class="pyn">Wǒ jiào...</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi là người Việt Nam</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm Vietnamese</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我是越南人</div><div class="pyn">Wǒ shì Yuènán rén</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Rất vui được gặp bạn!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Nice to meet you!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">很高兴认识你！</div><div class="pyn">Hěn gāoxìng rènshi nǐ!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn đến từ đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where are you from?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你从哪里来？</div><div class="pyn">Nǐ cóng nǎlǐ lái?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Chúc bạn ngày vui! · Hẹn gặp lại!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Have a great day! · See you!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">祝你今天愉快！· 下次见！</div><div class="pyn">Zhù nǐ jīntiān yúkuài! · Xià cì jiàn!</div></div></div></div>
+
+      <!-- ── Khen ngợi & Cảm xúc ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:4px 0 2px;padding-top:6px;border-top:1px dashed var(--line);"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--jade-d);font-weight:700;">✨ Khen ngợi & Cảm xúc</span></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Đẹp quá! 😍</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">So beautiful!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">好漂亮！太美了！</div><div class="pyn">Hǎo piàoliang! Tài měi le!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tuyệt vời! Thú vị quá!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Amazing! So interesting!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">太棒了！太有趣了！</div><div class="pyn">Tài bàng le! Tài yǒuqù le!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Phong cảnh đẹp quá!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">The scenery is gorgeous!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">风景太美了！</div><div class="pyn">Fēngjǐng tài měi le!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ở đây / Thành phố này đẹp thật!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">This place / city is so beautiful!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">这里好美！这个城市太美了！</div><div class="pyn">Zhèlǐ hǎo měi! Zhège chéngshì tài měi le!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi thích Trung Quốc lắm!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I love China!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我很喜欢中国！</div><div class="pyn">Wǒ hěn xǐhuān Zhōngguó!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi muốn quay lại đây!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I want to come back here!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我想再来这里！</div><div class="pyn">Wǒ xiǎng zài lái zhèlǐ!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn rất thân thiện / dễ thương!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">You're so friendly / cute!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你好热情！/ 你好可爱！</div><div class="pyn">Nǐ hǎo rèqíng! / Nǐ hǎo kě'ài!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bạn mặc đẹp lắm!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">You look great!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">你穿得好漂亮！</div><div class="pyn">Nǐ chuān de hǎo piàoliang!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Chụp ảnh cùng tôi được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can we take a photo together?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我们可以合照吗？</div><div class="pyn">Wǒmen kěyǐ hézhào ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Trải nghiệm tuyệt vời! Ảnh đẹp quá!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Amazing experience! Great photo!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">体验太棒了！照片好漂亮！</div><div class="pyn">Tǐyàn tài bàng le! Zhàopiàn hǎo piàoliang!</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 02 Mua sắm -->
+  <section class="pb-sec" data-s="2" id="pb-s2">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#FDF8EC;">🛍️</div><div><div class="pb-title">Mua sắm toàn tập</div><div class="pb-sub">Shopping · Bargaining · Details</div></div></div>
+    <div class="pb-tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg>Trả giá bắt đầu từ 30–40% giá đề. Mua đồ điện tử nhớ xin <b>发票 fāpiào</b> (hóa đơn) để bảo hành khi về VN!</div>
+    <div class="pgrid">
+      <!-- ── Hỏi giá & Trả giá ── -->
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cái này bao nhiêu tiền?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">How much is this?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">这个多少钱？</div><div class="pyn">Zhège duōshǎo qián?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Đắt quá!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Too expensive!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">太贵了！</div><div class="pyn">Tài guì le!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Rẻ hơn được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can you lower the price?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">可以便宜一点吗？</div><div class="pyn">Kěyǐ piányí yīdiǎn ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Giảm thêm tí nữa đi!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">A little bit cheaper!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再便宜一点点！</div><div class="pyn">Zài piányí yīdiǎndiǎn!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Giá thấp nhất bao nhiêu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What's the lowest price?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">最低多少钱？</div><div class="pyn">Zuì dī duōshǎo qián?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi trả [X] tệ nhé</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'll give you [X] yuan</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我给你[X]块</div><div class="pyn">Wǒ gěi nǐ [X] kuài</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Mua 2 có giảm giá không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Discount if I buy 2?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">买两件打折吗？</div><div class="pyn">Mǎi liǎng jiàn dǎzhé ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có loại rẻ hơn không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Any cheaper option?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有便宜点的吗？</div><div class="pyn">Yǒu piányí diǎn de ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi cần suy nghĩ thêm</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I need to think about it</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我再考虑一下</div><div class="pyn">Wǒ zài kǎolǜ yīxià</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Chỉ xem thôi / Không mua đâu</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Just looking / Not buying</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我只是看看 / 我不买</div><div class="pyn">Wǒ zhǐshì kànkàn / Wǒ bù mǎi</div></div></div></div>
+      <!-- ── Divider ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:4px 0 2px;padding-top:6px;border-top:1px dashed var(--line);"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--jade-d);font-weight:700;">🔍 Kiểm hàng & Chi tiết</span></div>
+      <!-- ── Kiểm hàng & Chi tiết ── -->
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Mặc thử được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can I try this on?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我可以试穿吗？</div><div class="pyn">Wǒ kěyǐ shì chuān ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có size lớn / nhỏ hơn?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Bigger / smaller size?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有大码 / 小码吗？</div><div class="pyn">Yǒu dà mǎ / xiǎo mǎ ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có màu khác không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Any other colors?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有其他颜色吗？</div><div class="pyn">Yǒu qítā yánsè ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cái này làm bằng gì?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What material is this?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">这是什么材料做的？</div><div class="pyn">Zhè shì shénme cáiliào zuò de?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Hàng thật không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Is this genuine?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">是正品吗？</div><div class="pyn">Shì zhèngpǐn ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Điện thế / phích cắm VN được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Works with Vietnam voltage?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">越南电压插头适用吗？</div><div class="pyn">Yuènán diànyā chātóu shìyòng ma?</div></div></div></div>
+      <!-- ── Thanh toán & Hoàn tất ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:4px 0 2px;padding-top:6px;border-top:1px dashed var(--line);"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--jade-d);font-weight:700;">💳 Thanh toán & Hoàn tất</span></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi lấy cái này / [X] cái</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'll take this / [X] of these</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我买这个 / 我要[X]个</div><div class="pyn">Wǒ mǎi zhège / Wǒ yào [X] gè</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Trả qua Alipay / WeChat?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Pay by Alipay / WeChat?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">可以用支付宝/微信吗？</div><div class="pyn">Kěyǐ yòng Zhīfùbǎo/Wēixìn ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cho tôi hóa đơn / bảo hành</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Give me a receipt / warranty</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">给我发票 / 保修单</div><div class="pyn">Gěi wǒ fāpiào / bǎoxiū dān</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cho tôi túi / Gói cẩn thận</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Give a bag / Pack carefully</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">给我袋子 / 帮我包装好</div><div class="pyn">Gěi wǒ dàizi / Bāng wǒ bāozhuāng hǎo</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Đổi / Trả hàng được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can I exchange / return?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">可以退换吗？</div><div class="pyn">Kěyǐ tuìhuàn ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không mua đâu / Cảm ơn</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm not buying, thanks</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我不买，谢谢</div><div class="pyn">Wǒ bù mǎi, xièxiè</div></div></div></div>
+    </div>
+    <div class="num-box">
+      <div class="num-title">🔢 Số đếm — Numbers — 数字</div>
+      <div class="num-grid">
+        <div class="ni"><div class="nn">一</div><div class="np">yī</div><div class="nv">1</div></div>
+        <div class="ni"><div class="nn">二</div><div class="np">èr</div><div class="nv">2</div></div>
+        <div class="ni"><div class="nn">三</div><div class="np">sān</div><div class="nv">3</div></div>
+        <div class="ni"><div class="nn">四</div><div class="np">sì</div><div class="nv">4</div></div>
+        <div class="ni"><div class="nn">五</div><div class="np">wǔ</div><div class="nv">5</div></div>
+        <div class="ni"><div class="nn">六</div><div class="np">liù</div><div class="nv">6</div></div>
+        <div class="ni"><div class="nn">七</div><div class="np">qī</div><div class="nv">7</div></div>
+        <div class="ni"><div class="nn">八</div><div class="np">bā</div><div class="nv">8</div></div>
+        <div class="ni"><div class="nn">九</div><div class="np">jiǔ</div><div class="nv">9</div></div>
+        <div class="ni"><div class="nn">十</div><div class="np">shí</div><div class="nv">10</div></div>
+        <div class="ni"><div class="nn">百</div><div class="np">bǎi</div><div class="nv">100</div></div>
+        <div class="ni"><div class="nn">千</div><div class="np">qiān</div><div class="nv">1.000</div></div>
+        <div class="ni"><div class="nn">万</div><div class="np">wàn</div><div class="nv">10.000</div></div>
+        <div class="ni"><div class="nn">块</div><div class="np">kuài</div><div class="nv">tệ</div></div>
+        <div class="ni"><div class="nn">半</div><div class="np">bàn</div><div class="nv">nửa</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Ăn uống -->
+  <section class="pb-sec" data-s="3" id="pb-s3">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#F0F7F3;">🍜</div><div><div class="pb-title">Ăn uống</div><div class="pb-sub">Food & Dining</div></div></div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cho tôi thực đơn</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Menu please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">给我菜单</div><div class="pyn">Gěi wǒ càidān</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bàn cho [2] người</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Table for [2]</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">[两]个人的位子</div><div class="pyn">[Liǎng] gè rén de wèizi</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không cay</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Not spicy</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">不辣</div><div class="pyn">Bù là</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không ăn thịt heo</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">No pork please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">不要猪肉</div><div class="pyn">Bù yào zhūròu</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ngon lắm!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Delicious!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">好吃！</div><div class="pyn">Hǎochī!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tính tiền</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Bill please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">买单 / 结账</div><div class="pyn">Mǎidān / Jiézhàng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Một gói khăn giấy</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">A pack of tissues</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">一包纸巾</div><div class="pyn">Yī bāo zhǐjīn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có nước sôi không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Do you have hot water?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有热水吗？</div><div class="pyn">Yǒu rèshuǐ ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Thêm đũa / thìa</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">More chopsticks / spoon</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再来筷子 / 勺子</div><div class="pyn">Zài lái kuàizi / sháozi</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không dị ứng gì</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">No allergies</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我没有过敏</div><div class="pyn">Wǒ méiyǒu guòmǐn</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 04 Di chuyển -->
+  <section class="pb-sec" data-s="4" id="pb-s4">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#EEF4FC;">🚗</div><div><div class="pb-title">Di chuyển & Du lịch</div><div class="pb-sub">Transport & Tourism</div></div></div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">[X] ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where is [X]?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">[X] 在哪里？</div><div class="pyn">[X] zài nǎlǐ?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi muốn đến…</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I want to go to…</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我想去…</div><div class="pyn">Wǒ xiǎng qù…</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Dừng ở đây</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Stop here please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">就在这里停</div><div class="pyn">Jiù zài zhèlǐ tíng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Thẳng / Trái / Phải</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Straight / Left / Right</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">直走 / 左转 / 右转</div><div class="pyn">Zhí zǒu / Zuǒ / Yòu zhuǎn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi bị lạc đường</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm lost</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我迷路了</div><div class="pyn">Wǒ mí lù le</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Mấy giờ mở / đóng cửa?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What time open / close?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">几点开门 / 关门？</div><div class="pyn">Jǐ diǎn kāimén / guānmén?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Mua vé vào cổng</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Buy entrance ticket</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">买门票</div><div class="pyn">Mǎi ménpiào</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi đi với đoàn Việt Nam</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm with a Vietnamese tour</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我是越南旅游团的</div><div class="pyn">Wǒ shì Yuènán lǚyóutuán de</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Khách sạn tôi tên là…</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">My hotel is called…</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我住在…酒店</div><div class="pyn">Wǒ zhù zài… jiǔdiàn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Mất bao lâu đến đó?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">How long does it take?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">要多长时间？</div><div class="pyn">Yào duō cháng shíjiān?</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 05 Chụp hình -->
+  <section class="pb-sec" data-s="5" id="pb-s5">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#F5F0FA;">📸</div><div><div class="pb-title">Nhờ chụp hình</div><div class="pb-sub">Taking Photos</div></div></div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Chụp ảnh giúp tôi được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Can you take a photo for me?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">能帮我拍张照吗？</div><div class="pyn">Néng bāng wǒ pāi zhāng zhào ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bấm nút này nhé</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Press this button</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">按这个键</div><div class="pyn">Àn zhège jiàn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">1, 2, 3 — Cười!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">1, 2, 3 — Smile!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">一、二、三，笑！</div><div class="pyn">Yī, èr, sān, xiào!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Chụp thêm một tấm nữa</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">One more please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再来一张</div><div class="pyn">Zài lái yī zhāng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ảnh đẹp lắm! Cảm ơn!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Great photo! Thank you!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">照片很好看，谢谢！</div><div class="pyn">Zhàopiàn hěn hǎokàn, xièxiè!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi chụp ảnh bạn được không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">May I take your photo?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我可以给你拍照吗？</div><div class="pyn">Wǒ kěyǐ gěi nǐ pāizhào ma?</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 Khẩn cấp -->
+  <section class="pb-sec" data-s="6" id="pb-s6">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#FEF3F1;">🆘</div><div><div class="pb-title">Khẩn cấp</div><div class="pb-sub">Emergency</div></div></div>
+    <div class="pb-tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg>Khẩn cấp: HDV <b>0908 327 871</b> · Hotline <b>0901 330 016</b> · Cảnh sát TQ <b>110</b> · Cấp cứu <b>120</b></div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cứu tôi với!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Help!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">救命！</div><div class="pyn">Jiùmìng!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Gọi cảnh sát!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Call the police!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">叫警察！</div><div class="pyn">Jiào jǐngchá!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Gọi xe cấp cứu!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Call an ambulance!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">叫救护车！</div><div class="pyn">Jiào jiùhùchē!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi bị ốm / chóng mặt</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm sick / dizzy</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我生病了 / 我头晕</div><div class="pyn">Wǒ shēngbìng le / tóuyūn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bệnh viện ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where is the hospital?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">医院在哪里？</div><div class="pyn">Yīyuàn zài nǎlǐ?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi mất hộ chiếu</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I lost my passport</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我的护照丢了</div><div class="pyn">Wǒ de hùzhào diū le</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Trộm! Giật túi!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Thief! Robber!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">抓小偷！</div><div class="pyn">Zhuā xiǎotōu!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi dị ứng với…</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I'm allergic to…</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我对…过敏</div><div class="pyn">Wǒ duì… guòmǐn</div></div></div></div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <button class="btn p" onclick="window.print()">🖨️ In / Lưu PDF</button>
+  </div>
+
+  <!-- 07 Địa danh -->
+  <section class="pb-sec" data-s="7" id="pb-s7">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#F0F7F3;">🗺️</div><div><div class="pb-title">Địa danh trong hành trình</div><div class="pb-sub">Chỉ vào chữ Hán để taxi/người địa phương biết điểm đến</div></div></div>
+    <div class="pgrid">
+      <div class="place-card"><div class="place-zch">昆明</div><div class="place-pyn">Kūnmíng</div><div class="place-vn">Côn Minh</div><div class="place-en">Kunming</div></div>
+      <div class="place-card"><div class="place-zch">大理古城</div><div class="place-pyn">Dàlǐ Gǔchéng</div><div class="place-vn">Đại Lý Cổ Thành</div><div class="place-en">Dali Old Town</div></div>
+      <div class="place-card"><div class="place-zch">丽江</div><div class="place-pyn">Lìjiāng</div><div class="place-vn">Lệ Giang</div><div class="place-en">Lijiang</div></div>
+      <div class="place-card"><div class="place-zch">丽江古城</div><div class="place-pyn">Lìjiāng Gǔchéng</div><div class="place-vn">Thành cổ Lệ Giang</div><div class="place-en">Lijiang Old Town</div></div>
+      <div class="place-card"><div class="place-zch">香格里拉</div><div class="place-pyn">Xiānggélǐlā</div><div class="place-vn">Shangrila</div><div class="place-en">Shangri-La</div></div>
+      <div class="place-card"><div class="place-zch">独克宗古城</div><div class="place-pyn">Dúkèzōng Gǔchéng</div><div class="place-vn">Thành cổ Ánh Trăng</div><div class="place-en">Shangri-La Old Town</div></div>
+      <div class="place-card"><div class="place-zch">玉龙雪山</div><div class="place-pyn">Yùlóng Xuěshān</div><div class="place-vn">Núi tuyết Ngọc Long</div><div class="place-en">Jade Dragon Snow Mountain</div></div>
+      <div class="place-card"><div class="place-zch">洱海</div><div class="place-pyn">Ěrhǎi</div><div class="place-vn">Hồ Nhĩ Hải</div><div class="place-en">Erhai Lake</div></div>
+      <div class="place-card"><div class="place-zch">黑龙潭</div><div class="place-pyn">Hēilóng Tán</div><div class="place-vn">Hắc Long Đàm</div><div class="place-en">Black Dragon Pool</div></div>
+      <div class="place-card"><div class="place-zch">蓝月谷</div><div class="place-pyn">Lányuègǔ</div><div class="place-vn">Lam Nguyệt Cốc</div><div class="place-en">Blue Moon Valley</div></div>
+      <div class="place-card"><div class="place-zch">松赞林寺</div><div class="place-pyn">Sōngzànlín Sì</div><div class="place-vn">Tu viện Songzanlin</div><div class="place-en">Songzanlin Monastery</div></div>
+      <div class="place-card"><div class="place-zch">斗南花市</div><div class="place-pyn">Dǒunán Huāshì</div><div class="place-vn">Chợ Hoa Đấu Nam</div><div class="place-en">Dounan Flower Market</div></div>
+    </div>
+  </section>
+
+  <!-- 08 Tàu & Cáp treo -->
+  <section class="pb-sec" data-s="8" id="pb-s8">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#EEF4FC;">🚂</div><div><div class="pb-title">Tàu cao tốc & Cáp treo</div><div class="pb-sub">High-speed Rail & Cable Car</div></div></div>
+    <div class="pb-tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg>Núi Ngọc Long cao 5.000m+ — nên mua <b>bình oxi ~40 tệ/bình</b> tại chân núi. Cáp treo Băng Xuyên lên độ cao 4.506m.</div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tàu cao tốc</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">High-speed train</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">高铁</div><div class="pyn">Gāotiě</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ga tàu ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where is the train station?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">火车站在哪里？</div><div class="pyn">Huǒchēzhàn zài nǎlǐ?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Sân ga số mấy?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Which platform?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">几号站台？</div><div class="pyn">Jǐ hào zhàntái?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi muốn đi cáp treo</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I want to take the cable car</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我要坐缆车</div><div class="pyn">Wǒ yào zuò lǎnchē</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi cần bình oxi</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I need an oxygen bottle</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我需要氧气瓶</div><div class="pyn">Wǒ xūyào yǎngqì píng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi bị say độ cao</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I have altitude sickness</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我有高原反应</div><div class="pyn">Wǒ yǒu gāoyuán fǎnyìng</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Xe điện / Xe bus trung chuyển</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Electric cart / Shuttle bus</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">电瓶车 / 摆渡车</div><div class="pyn">Diànpíng chē / Bǎidù chē</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Vé xe điện bao nhiêu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">How much is the electric cart?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">电瓶车票多少钱？</div><div class="pyn">Diànpíng chē piào duōshǎo qián?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Hành lý để ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where do I put my luggage?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">行李放哪里？</div><div class="pyn">Xínglǐ fàng nǎlǐ?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Vé tàu đi [Đại Lý]</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Train ticket to [Dali]</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">去[大理]的票</div><div class="pyn">Qù [Dàlǐ] de piào</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 09 Đặc sản -->
+  <section class="pb-sec" data-s="9" id="pb-s9">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#F5F0FA;">🍲</div><div><div class="pb-title">Đặc sản hành trình</div><div class="pb-sub">Local Specialties & Surcharges</div></div></div>
+    <div class="pb-tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg>Một số bữa có phụ thu: BBQ nướng +45 tệ · Tàu Đại Lý–Lệ Giang +120 tệ · Tàu Shangrila về +90 tệ · Xe điện Lam Nguyệt Cốc ~15 tệ.</div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Bún qua cầu</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Crossing the bridge noodles</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">过桥米线</div><div class="pyn">Guòqiáo mǐxiàn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Lẩu bò Yak</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Yak hotpot</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">牦牛火锅</div><div class="pyn">Máoniú huǒguō</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Lẩu nấm</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Mushroom hotpot</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">菌菇火锅</div><div class="pyn">Jùngū huǒguō</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Lẩu nướng Tây Tạng</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Tibetan BBQ hotpot</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">藏式烤肉</div><div class="pyn">Zàngshì kǎoròu</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Trà đặc sản Thư Diệc Sơn Thảo</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Local specialty herb tea</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">鼠曲草茶</div><div class="pyn">Shǔqūcǎo chá</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Phụ thu bao nhiêu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">How much is the surcharge?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">附加费多少？</div><div class="pyn">Fùjiā fèi duōshǎo?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Đã bao gồm trong tour</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Included in the tour</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">已包含在行程里</div><div class="pyn">Yǐ bāohán zài xíngchéng lǐ</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Tôi không ăn thêm</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">I don't want to add more</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">我不要加</div><div class="pyn">Wǒ bú yào jiā</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Trà sữa Heytea ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where is Heytea?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">喜茶在哪里？</div><div class="pyn">Xǐchá zài nǎlǐ?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cà phê Luckin ở đâu?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Where is Luckin Coffee?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">瑞幸咖啡在哪里？</div><div class="pyn">Ruìxìng kāfēi zài nǎlǐ?</div></div></div></div>
+    </div>
+  </section>
+
+  <div class="controls" style="margin-top:14px;">
+    <button class="btn p" onclick="window.print()">🖨️ In / Lưu PDF</button>
+  </div>
+
+  <!-- 10 Gọi món thêm -->
+  <section class="pb-sec" data-s="10" id="pb-s10">
+    <div class="pb-sec-head"><div class="pb-icon" style="background:#FEF0E6;">🍽️</div><div><div class="pb-title">Gọi món & Dặn dò thêm</div><div class="pb-sub">Detailed Food Ordering</div></div></div>
+    <div class="pb-tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 9v4M12 17h.01M10.3 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.7 3.86a2 2 0 00-3.4 0z"/></svg>Khi vào nhà hàng tự chọn, hãy gọi <b>服务员！</b> (Fúwùyuán) để gọi phục vụ — câu quan trọng nhất!</div>
+    <div class="pgrid">
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Phục vụ ơi! 📢</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Excuse me! (calling waiter)</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">服务员！</div><div class="pyn">Fúwùyuán!</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cái này là gì?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What is this dish?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">这是什么菜？</div><div class="pyn">Zhè shì shénme cài?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Cái này có cay không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Is this spicy?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">这个辣吗？</div><div class="pyn">Zhège là ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không cho ớt / hành / tỏi</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">No chili / onion / garlic</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">不要辣椒/葱/蒜</div><div class="pyn">Bù yào làjiāo / cōng / suàn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ít cay / Không cay</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Less spicy / No spice</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">少辣 / 不辣</div><div class="pyn">Shǎo là / Bù là</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có đồ chay không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Any vegetarian options?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有素菜吗？</div><div class="pyn">Yǒu sùcài ma?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ít dầu, ít muối</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Less oil, less salt</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">少油少盐</div><div class="pyn">Shǎo yóu shǎo yán</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Có gì ngon recommend không?</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">What do you recommend?</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">有什么推荐的？</div><div class="pyn">Yǒu shénme tuījiàn de?</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Thêm một phần nữa</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">One more serving please</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再来一份</div><div class="pyn">Zài lái yī fèn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Thêm cơm / Thêm mì</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">More rice / More noodles</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">再来碗饭 / 再来碗面</div><div class="pyn">Zài lái wǎn fàn / miàn</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Nước đá / Nước nóng</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Iced water / Hot water</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">冰水 / 热水</div><div class="pyn">Bīngshuǐ / Rèshuǐ</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Quét mã QR để gọi món</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Scan QR code to order</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">扫码点餐</div><div class="pyn">Sǎo mǎ diǎncān</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Đóng gói mang về</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Pack it to take away</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">打包</div><div class="pyn">Dǎbāo</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Không dị ứng nhưng không ăn thịt heo/bò</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">No pork / No beef</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">不吃猪肉 / 不吃牛肉</div><div class="pyn">Bù chī zhūròu / niúròu</div></div></div></div>
+      <div class="pc"><div class="flg">🇻🇳 VIỆT</div><div class="vnt">Ngon tuyệt! / Dở quá!</div><div class="div-line"></div><div class="er"><span class="ftag en">EN</span><span class="ent">Delicious! / Not good!</span></div><div class="zr"><span class="ftag zh">ZH</span><div><div class="zch">太好吃了！/ 难吃！</div><div class="pyn">Tài hǎochī le! / Nánchī!</div></div></div></div>
+    </div>
+  </section>
+
+  </main>
+</div><!-- /panel-pb -->
+
+<!-- ══════════════════════════════════
+     PANEL 3 — ITINERARY
+══════════════════════════════════ -->
+<div class="panel" id="panel-it">
+  <div class="it-daypills">
+    <a class="it-dp active" data-day="1" href="#">Ngày 1<span>2/7 · SGN→KMG</span></a>
+    <a class="it-dp" data-day="2" href="#">Ngày 2<span>3/7 · Đại Lý</span></a>
+    <a class="it-dp" data-day="3" href="#">Ngày 3<span>4/7 · Lệ Giang</span></a>
+    <a class="it-dp" data-day="4" href="#">Ngày 4<span>5/7 · Shangrila</span></a>
+    <a class="it-dp" data-day="5" href="#">Ngày 5<span>6/7 · Về KMG</span></a>
+    <a class="it-dp" data-day="6" href="#">Ngày 6<span>7/7 · Về SGN</span></a>
+  </div>
+  <div class="w">
+
+  <!-- NGÀY 1 -->
+  <div class="it-day active" id="it-d1">
+    <div class="it-head it-head-d1"><div class="it-head-top"><div class="it-daynum">Ngày 1 · Thứ Năm</div><div class="it-date">02/07/2026</div></div><div class="it-route">Sài Gòn → Côn Minh ✈️</div><div class="it-meals"><span class="it-meal">🍽️ Tối trên máy bay</span></div><div class="it-ks">🏨 Kunming Long Way Hotel</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="72" fill="#0D1B35"/><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r="1"/><circle cx="60" cy="6" r="1.2"/><circle cx="100" cy="14" r="1"/><circle cx="140" cy="8" r="1.3"/><circle cx="180" cy="5" r="1"/><circle cx="220" cy="12" r="1.2"/><circle cx="260" cy="7" r="1"/><circle cx="300" cy="9" r="1.3"/><circle cx="340" cy="5" r="1"/><circle cx="40" cy="20" r=".8"/><circle cx="80" cy="18" r="1"/><circle cx="155" cy="22" r=".8"/><circle cx="290" cy="19" r="1"/></g><rect x="0" y="55" width="360" height="17" fill="#192542"/><g fill="#E2C481" opacity=".6"><rect x="10" y="58" width="2" height="3" rx="1"/><rect x="18" y="57" width="3" height="4" rx="1"/><rect x="45" y="57" width="4" height="5" rx="1"/><rect x="70" y="56" width="3" height="6" rx="1"/><rect x="100" y="57" width="4" height="5" rx="1"/><rect x="130" y="56" width="3" height="6" rx="1"/><rect x="160" y="57" width="4" height="5" rx="1"/><rect x="195" y="56" width="3" height="6" rx="1"/><rect x="225" y="57" width="4" height="5" rx="1"/><rect x="260" y="56" width="3" height="6" rx="1"/><rect x="292" y="57" width="4" height="5" rx="1"/><rect x="325" y="56" width="3" height="6" rx="1"/></g><circle cx="320" cy="18" r="10" fill="#E2C481" opacity=".9"/><circle cx="325" cy="14" r="9" fill="#0D1B35" opacity=".7"/><g transform="translate(130,25) rotate(-15)"><path d="M0,0 L28,0 Q36,-2 36,4 Q36,10 28,8 L0,8Z" fill="#fff" opacity=".95"/><path d="M8,0 L20,-10 L24,-10 L18,0Z" fill="#fff" opacity=".9"/><path d="M10,8 L20,18 L24,18 L18,8Z" fill="#fff" opacity=".9"/><path d="M28,4 L38,-1 L40,0 L38,5Z" fill="#fff" opacity=".85"/><circle cx="8" cy="4" r="2" fill="#E2C481"/></g></svg>
+    <div class="it-tl">
+      <div class="it-entry fly"><div class="it-tm">16:10</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🛫</span><span class="it-ttl">Tập trung tại Tân Sơn Nhất</span></div><div class="it-dsc">Cổng D2, Ga đi Quốc tế. Gọi điện cho HDV khi đến. Mặc áo thoáng — chuyến dài.</div><div class="it-tags"><span class="itag warn">⏰ Đúng giờ tuyệt đối</span></div></div></div>
+      <div class="it-entry fly"><div class="it-tm">19:10</div><div class="it-c"><div class="it-c-top"><span class="it-ico">✈️</span><span class="it-ttl">Bay MU9634 · SGN → KMG</span></div><div class="it-dsc">China Eastern Airlines · ~3h50. Có phục vụ bữa tối nhẹ và nước uống trên máy bay.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry fly"><div class="it-tm">23:10</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🛬</span><span class="it-ttl">Đến sân bay Côn Minh (Trường Thủy)</span></div><div class="it-dsc">Đợi hướng dẫn viên địa phương đón. Nhớ chỉnh đồng hồ +1 tiếng.</div></div></div>
+      <div class="it-entry go"><div class="it-tm">00:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🛂</span><span class="it-ttl">Làm thủ tục nhập cảnh TQ</span></div><div class="it-dsc">Xuất trình hộ chiếu + visa đoàn. Đi theo hướng dẫn của HDV.</div></div></div>
+      <div class="it-entry sleep"><div class="it-tm">00:40</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏨</span><span class="it-ttl">Nhận phòng · Kunming Long Way Hotel</span></div><div class="it-dsc">朗唯酒店 · khu trung tâm Côn Minh · 2 người/phòng tiêu chuẩn 4★ địa phương. Tự do dạo phố đêm nếu còn sức.</div><div class="it-tags"><span class="itag inc">✓ Phòng bao gồm</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- NGÀY 2 -->
+  <div class="it-day" id="it-d2">
+    <div class="it-head it-head-d2"><div class="it-head-top"><div class="it-daynum">Ngày 2 · Thứ Sáu</div><div class="it-date">03/07/2026</div></div><div class="it-route">Côn Minh → Đại Lý 🚄</div><div class="it-meals"><span class="it-meal">🌅 Sáng</span><span class="it-meal">🌞 Trưa</span><span class="it-meal">🌙 Tối BBQ</span></div><div class="it-ks">🏨 Dali Harbour Hot Spring Hotel</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5DADE2"/><stop offset="100%" stop-color="#D6EAF8"/></linearGradient></defs><rect width="360" height="72" fill="url(#sky2)"/><path d="M0,50 L60,20 L100,35 L150,10 L200,28 L250,5 L300,22 L360,8 L360,50Z" fill="#5D9B7A" opacity=".5"/><path d="M0,50 L40,30 L80,42 L120,22 L170,38 L220,18 L270,34 L320,20 L360,30 L360,50Z" fill="#4C7A60" opacity=".8"/><rect x="0" y="50" width="360" height="22" fill="#2E86C1" opacity=".6"/><g fill="#192542" opacity=".75"><rect x="163" y="28" width="6" height="22" rx="1"/><polygon points="159,28 175,28 167,18"/><rect x="160" y="33" width="14" height="2"/><rect x="161" y="38" width="12" height="2"/></g><g transform="translate(20,36)"><rect x="0" y="0" width="90" height="14" rx="5" fill="#fff" opacity=".95"/><rect x="0" y="0" width="90" height="5" rx="5" fill="#1A56A0"/><rect x="78" y="1" width="14" height="11" rx="4" fill="#1A56A0" opacity=".8"/><circle cx="15" cy="14" r="3" fill="#555"/><circle cx="35" cy="14" r="3" fill="#555"/><circle cx="60" cy="14" r="3" fill="#555"/><circle cx="80" cy="14" r="3" fill="#555"/><circle cx="8" cy="5" r="2" fill="#E2C481"/></g></svg>
+    <div class="it-tl">
+      <div class="it-entry eat"><div class="it-tm">07:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌅</span><span class="it-ttl">Ăn sáng + trả phòng</span></div><div class="it-dsc">Điểm tâm tại <b>Kunming Long Way Hotel</b>. Chuẩn bị hành lý, trả phòng trước khi ra ga.</div></div></div>
+      <div class="it-entry go"><div class="it-tm">09:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚉</span><span class="it-ttl">Khởi hành ra ga tàu · ~10 phút</span></div><div class="it-dsc">Chặng tàu này đã bao gồm trong tour, không phụ thu.</div></div></div>
+      <div class="it-entry go"><div class="it-tm">10:04</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚄</span><span class="it-ttl">Tàu cao tốc Côn Minh → Đại Lý</span></div><div class="it-dsc">Đến 12:17. ~2h13 · gần 300km/h. Ngồi thư giãn ngắm phong cảnh Vân Nam.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm trong tour</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">13:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍜</span><span class="it-ttl">Ăn trưa đặc sản Đại Lý</span></div><div class="it-dsc">Cơm Đại Lý · đặc sản vùng Bạch tộc · đậu phụ Đại Lý, rau núi Thương Sơn. 🍺 kèm 2 bia + 1 nước ngọt/bàn.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">14:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏡</span><span class="it-ttl">Phương Dương Áp Thôn</span></div><div class="it-dsc">Làng cổ cách Đại Lý 7km. Kiến trúc như phim "Đi đến nơi có gió". Chụp ảnh cực đẹp!</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">15:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌊</span><span class="it-ttl">Hồ Nhĩ Hải (Erhai Lake)</span></div><div class="it-dsc">~15-20 phút. Tản bộ ngắm hồ bình yên của Vân Nam. Tùy sức khỏe và thời gian.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">16:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏛️</span><span class="it-ttl">Đại Lý Cổ Thành</span></div><div class="it-dsc">~20-30 phút. Ngắm Tam Tháp, Song Lang Cổ Trấn huyền thoại. Tự do mua sắm, uống trà.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">18:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍖</span><span class="it-ttl">Ăn tối · BBQ nướng đặc sản Đại Lý</span></div><div class="it-dsc">Thịt nướng than hoa kiểu Đại Lý · thịt dê, thịt bò, rau núi. 🍺 kèm 2 bia + 1 nước ngọt/bàn. Sau đó về KS nhận phòng.</div><div class="it-tags"><span class="itag fee">💰 Phụ thu 45 tệ/người</span></div></div></div>
+      <div class="it-entry sleep"><div class="it-tm">~20:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏨</span><span class="it-ttl">Nhận phòng · Dali Harbour Hot Spring Hotel</span></div><div class="it-dsc">港湾温泉酒店 · có hồ nước khoáng nóng thiên nhiên · khu Đại Lý mới · ~25-35 phút từ nhà hàng. 2 người/phòng.</div><div class="it-tags"><span class="itag inc">✓ Phòng bao gồm</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- NGÀY 3 -->
+  <div class="it-day" id="it-d3">
+    <div class="it-head it-head-d3"><div class="it-head-top"><div class="it-daynum">Ngày 3 · Thứ Bảy</div><div class="it-date">04/07/2026</div></div><div class="it-route">Đại Lý → Lệ Giang 🏯</div><div class="it-meals"><span class="it-meal">🌅 Sáng</span><span class="it-meal">🌞 Trưa</span><span class="it-meal">🌙 Tối</span></div><div class="it-ks">🏨 Vienna International Hotel 4★</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5CBA7"/><stop offset="100%" stop-color="#FAE5D3"/></linearGradient></defs><rect width="360" height="72" fill="url(#sky3)"/><path d="M0,72 L0,45 L30,38 L60,45 L60,30 L90,22 L120,30 L120,42 L150,35 L180,42 L180,28 L210,18 L240,28 L240,40 L270,32 L300,40 L300,25 L330,16 L360,25 L360,72Z" fill="#7B4B2A"/><path d="M60,45 Q75,24 90,22 Q105,24 120,30" stroke="#5D3217" stroke-width="2" fill="none"/><path d="M150,35 Q165,28 180,28 Q195,28 210,18 Q225,28 240,28" stroke="#5D3217" stroke-width="2" fill="none"/><path d="M270,32 Q285,24 300,25 Q315,16 330,16 Q345,16 360,25" stroke="#5D3217" stroke-width="2" fill="none"/><g><ellipse cx="50" cy="55" rx="4" ry="6" fill="#C0432B" opacity=".9"/><line x1="50" y1="49" x2="50" y2="55" stroke="#CB9C40" stroke-width="1"/><ellipse cx="90" cy="50" rx="4" ry="6" fill="#E2C481" opacity=".9"/><line x1="90" y1="44" x2="90" y2="50" stroke="#CB9C40" stroke-width="1"/><ellipse cx="140" cy="52" rx="4" ry="6" fill="#C0432B" opacity=".9"/><line x1="140" y1="46" x2="140" y2="52" stroke="#CB9C40" stroke-width="1"/><ellipse cx="190" cy="48" rx="4" ry="6" fill="#E2C481" opacity=".9"/><line x1="190" y1="42" x2="190" y2="48" stroke="#CB9C40" stroke-width="1"/><ellipse cx="240" cy="52" rx="4" ry="6" fill="#C0432B" opacity=".9"/><line x1="240" y1="46" x2="240" y2="52" stroke="#CB9C40" stroke-width="1"/><ellipse cx="290" cy="49" rx="4" ry="6" fill="#E2C481" opacity=".9"/><line x1="290" y1="43" x2="290" y2="49" stroke="#CB9C40" stroke-width="1"/></g><path d="M0,65 Q90,60 180,65 Q270,70 360,65 L360,72 L0,72Z" fill="#5DADE2" opacity=".5"/></svg>
+    <div class="it-tl">
+      <div class="it-entry eat"><div class="it-tm">07:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌅</span><span class="it-ttl">Ăn sáng + khởi hành ra ga</span></div><div class="it-dsc">Điểm tâm tại nhà hàng <b>Dali Harbour Hot Spring Hotel</b>. Chuẩn bị hành lý, trả phòng.</div></div></div>
+      <div class="it-entry go"><div class="it-tm">10:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚄</span><span class="it-ttl">Tàu cao tốc Đại Lý → Lệ Giang</span></div><div class="it-dsc">Đến 11:57. ~1h57. Chặng này phụ thu riêng, không bao gồm tour.</div><div class="it-tags"><span class="itag fee">💰 Phụ thu 120 tệ/người</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">12:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍜</span><span class="it-ttl">Ăn trưa đặc sản Lệ Giang</span></div><div class="it-dsc">Cơm địa phương Nạp Tây · gà nướng Lệ Giang, rau rừng núi cao. 🍺 kèm 2 bia + 1 nước ngọt/bàn.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">14:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏞️</span><span class="it-ttl">Công viên Hắc Long Đàm</span></div><div class="it-dsc">~20 phút. Hồ trong xanh, view nhìn thẳng ra núi Ngọc Long tuyết trắng. Background check-in đỉnh!</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">16:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏯</span><span class="it-ttl">Thành cổ Lệ Giang</span></div><div class="it-dsc">~10 phút. Di sản UNESCO 1997 "Venice phương Đông". 800 năm lịch sử. Dạo phố, mua sắm, thưởng trà buổi tối.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span><span class="itag self">Show Thiên Cổ Tình ~280 tệ tự túc</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">18:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍲</span><span class="it-ttl">Ăn tối · Lẩu bò Yak (牦牛火锅)</span></div><div class="it-dsc">Thịt bò Yak núi cao mềm thơm, nước lèo đậm đà đặc trưng Vân Nam. 🍺 kèm 2 bia + 1 nước ngọt/bàn. Về KS ~25-35 phút.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry sleep"><div class="it-tm">~20:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏨</span><span class="it-ttl">Nhận phòng · Vienna International Hotel 4★</span></div><div class="it-dsc">维也纳国际酒店 · khu Lệ Giang mới · gần thành cổ. <b>Ngủ sớm! Sáng mai dậy 6-7h lên núi tuyết.</b></div><div class="it-tags"><span class="itag warn">⏰ Ngủ sớm! Sáng mai dậy 6–7h</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- NGÀY 4 -->
+  <div class="it-day" id="it-d4">
+    <div class="it-head it-head-d4"><div class="it-head-top"><div class="it-daynum">Ngày 4 · Chủ Nhật · ❄️ LẠNH NHẤT</div><div class="it-date">05/07/2026 · 10°–15°C</div></div><div class="it-route">Ngọc Long → Show → Shangrila</div><div class="it-meals"><span class="it-meal">🌅 Sáng (sớm)</span><span class="it-meal">🌞 Trưa</span><span class="it-meal">🌙 Tối</span></div><div class="it-ks">🏨 Yun Ting Man Xi Hotel 4★</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#AED6F1"/><stop offset="100%" stop-color="#D6EAF8"/></linearGradient></defs><rect width="360" height="72" fill="url(#sky4)"/><path d="M0,72 L0,55 L50,20 L90,40 L130,10 L170,35 L210,5 L250,30 L290,15 L330,38 L360,20 L360,72Z" fill="#E8F4FD"/><path d="M130,10 L155,28 L210,5 L255,28 L130,10Z" fill="#fff" opacity=".85"/><path d="M50,20 L75,35 L50,20Z" fill="#fff" opacity=".65"/><path d="M0,72 L0,60 L60,38 L100,52 L140,32 L180,48 L220,28 L260,44 L300,35 L360,50 L360,72Z" fill="#5D9B7A" opacity=".5"/><rect x="0" y="60" width="360" height="12" fill="#2E86C1" opacity=".25"/><line x1="180" y1="18" x2="280" y2="45" stroke="#555" stroke-width="2" opacity=".6"/><line x1="180" y1="18" x2="100" y2="40" stroke="#555" stroke-width="2" opacity=".6"/><rect x="215" y="24" width="18" height="12" rx="3" fill="#1A56A0" opacity=".9"/><line x1="224" y1="24" x2="224" y2="20" stroke="#555" stroke-width="2"/></svg>
+    <div class="it-tl">
+      <div class="it-entry note"><div class="it-tm">⚠️</div><div class="it-c"><div class="it-c-top"><span class="it-ico">❄️</span><span class="it-ttl">Ngày đặc biệt — chuẩn bị kỹ!</span></div><div class="it-dsc">10°–15°C · Mặc thật ấm · Mua bình oxi tại chân núi (~40 tệ) · Mang theo thuốc đau đầu, say độ cao.</div><div class="it-tags"><span class="itag warn">🌡️ Lạnh nhất hành trình — áo ấm!</span></div></div></div>
+      <div class="it-entry go"><div class="it-tm">6:30–7:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚌</span><span class="it-ttl">Khởi hành lên núi Ngọc Long · ~1 tiếng</span></div><div class="it-dsc">Giờ tùy land book cáp treo — HDV thông báo tối hôm trước. Nếu khởi hành sớm, <b>Vienna Hotel chuẩn bị suất ăn sáng mang lên xe</b>.</div></div></div>
+      <div class="it-entry see"><div class="it-tm">Sáng</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏔️</span><span class="it-ttl">Cáp treo Băng Xuyên lên núi tuyết Ngọc Long</span></div><div class="it-dsc">Lên độ cao 4.506m. Tuyết phủ quanh năm, rừng thông như Châu Âu. Khoảng 2–3.5h. Nếu bảo trì → đổi sang Mao Ngưu Bình (3.600m).</div><div class="it-tags"><span class="itag inc">✓ Cáp treo bao gồm</span><span class="itag fee">💰 Bình oxi ~40 tệ/bình</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">12:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍽️</span><span class="it-ttl">Ăn trưa · khu Ngọc Long + Trà Sơn Thảo</span></div><div class="it-dsc">Nhà hàng tại khu du lịch Ngọc Long. 🍵 <b>Tặng 1 ly trà sữa/thức uống Thư Diệc Sơn Thảo</b> — đặc sản thảo dược Vân Nam. 🍺 2 bia + 1 nước ngọt/bàn.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span><span class="itag inc">🍵 Trà Sơn Thảo tặng kèm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">13:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🎭</span><span class="it-ttl">Show Ấn tượng Lệ Giang</span></div><div class="it-dsc">Đạo diễn Trương Nghệ Mưu · ngoài trời 3.000m+ · phông nền bầu trời & núi Ngọc Long · ~1 giờ. Siêu hoành tráng!</div><div class="it-tags"><span class="itag inc">✓ Vé bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">14:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">💧</span><span class="it-ttl">Lam Nguyệt Cốc + Bạch Thủy Hà</span></div><div class="it-dsc">Nước xanh biếc dưới chân núi tuyết. Đi xe bus → book xe điện vào trong khu tham quan.</div><div class="it-tags"><span class="itag fee">💰 Xe điện ~15 tệ/người</span></div></div></div>
+      <div class="it-entry go"><div class="it-tm">16:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚄</span><span class="it-ttl">Tàu cao tốc Lệ Giang → Shangrila</span></div><div class="it-dsc">Chuyến 16:59 – 18:40. ~1h41. Lên vùng cao nguyên Tây Tạng.</div><div class="it-tags"><span class="itag fee">💰 Phụ thu 110 tệ/vé</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">19:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍄</span><span class="it-ttl">Ăn tối · Lẩu nấm rừng Vân Nam (菌菇火锅)</span></div><div class="it-dsc">Nấm rừng núi cao Vân Nam, nước lèo thanh ngọt tự nhiên. 🍺 kèm 2 bia + 1 nước ngọt/bàn. Về KS nhận phòng ~30-45 phút.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">21:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌕</span><span class="it-ttl">Thành cổ Ánh Trăng · kế Yun Ting Man Xi Hotel</span></div><div class="it-dsc">3.200m so với mực nước biển. 1.300 năm tuổi, nhà cổ Tây Tạng, cờ cầu nguyện rực rỡ. Thuê trang phục Tây Tạng chụp ảnh.</div><div class="it-tags"><span class="itag self">Trang phục cổ trang tự túc</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- NGÀY 5 -->
+  <div class="it-day" id="it-d5">
+    <div class="it-head it-head-d5"><div class="it-head-top"><div class="it-daynum">Ngày 5 · Thứ Hai</div><div class="it-date">06/07/2026</div></div><div class="it-route">Shangrila → Côn Minh 🛕</div><div class="it-meals"><span class="it-meal">🌅 Sáng</span><span class="it-meal">🌞 Trưa</span><span class="it-meal">🍲 Tối sớm tại Shangrila</span></div><div class="it-ks">🏨 Kunming Long Way Hotel</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D2B4DE"/><stop offset="100%" stop-color="#EAF2FF"/></linearGradient></defs><rect width="360" height="72" fill="url(#sky5)"/><path d="M0,72 L0,48 L60,25 L100,40 L150,18 L200,38 L250,12 L300,35 L360,22 L360,72Z" fill="#7D8B96" opacity=".4"/><path d="M250,12 L300,35 L360,22 L360,48 L250,48Z" fill="#BFC9CA" opacity=".5"/><rect x="120" y="36" width="120" height="36" rx="2" fill="#F8C471"/><rect x="110" y="30" width="140" height="12" rx="2" fill="#E59866"/><rect x="130" y="18" width="100" height="16" rx="2" fill="#E59866"/><rect x="150" y="8" width="60" height="14" rx="2" fill="#D4AC0D"/><rect x="128" y="40" width="12" height="16" rx="2" fill="#1A5276" opacity=".7"/><rect x="148" y="40" width="12" height="16" rx="2" fill="#1A5276" opacity=".7"/><rect x="200" y="40" width="12" height="16" rx="2" fill="#1A5276" opacity=".7"/><rect x="220" y="40" width="12" height="16" rx="2" fill="#1A5276" opacity=".7"/><line x1="20" y1="28" x2="340" y2="13" stroke="#555" stroke-width="1" opacity=".4"/><g opacity=".85"><rect x="30" y="20" width="18" height="12" rx="1" fill="#E74C3C"/><rect x="62" y="18" width="18" height="12" rx="1" fill="#F1C40F"/><rect x="94" y="16" width="18" height="12" rx="1" fill="#27AE60"/><rect x="126" y="14" width="18" height="12" rx="1" fill="#3498DB"/><rect x="240" y="12" width="18" height="12" rx="1" fill="#F1C40F"/><rect x="272" y="11" width="18" height="12" rx="1" fill="#27AE60"/><rect x="304" y="10" width="18" height="12" rx="1" fill="#3498DB"/></g></svg>
+    <div class="it-tl">
+      <div class="it-entry eat"><div class="it-tm">07:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌅</span><span class="it-ttl">Ăn sáng + trả phòng</span></div><div class="it-dsc">Điểm tâm tại <b>Yun Ting Man Xi Hotel 4★</b> (云婷曼昔酒店). Chuẩn bị hành lý, trả phòng.</div></div></div>
+      <div class="it-entry see"><div class="it-tm">08:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🛕</span><span class="it-ttl">Tu viện Songzanlin (Tùng Tán Lâm Tự)</span></div><div class="it-dsc">~25 phút. Tu viện Phật giáo Tây Tạng lớn nhất Vân Nam, 3.300m, do Đạt Lai Lạt Ma thứ 5 xây. Khoảng 1.5-2h tham quan.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry see"><div class="it-tm">11:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏳️</span><span class="it-ttl">Cờ Lungta (Cờ cầu nguyện Tây Tạng)</span></div><div class="it-dsc">~15-20 phút. Cờ ngũ hành 5 màu bay trên nền núi hùng vĩ — biểu tượng tâm linh đặc trưng nhất của Tây Tạng.</div><div class="it-tags"><span class="itag inc">✓ Vé bao gồm</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">12:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🐔</span><span class="it-ttl">Ăn trưa · Lẩu gà đặc sản Shangrila (鸡火锅)</span></div><div class="it-dsc">Gà đen Shangrila hầm thuốc Bắc, nước dùng thơm nức đặc trưng Tây Tạng. 🍺 kèm 2 bia + 1 nước ngọt/bàn.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">~15:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍲</span><span class="it-ttl">Ăn tối SỚM · Lẩu nướng hương vị Tây Tạng (藏式烤肉)</span></div><div class="it-dsc">Thịt bò, thịt dê, rau núi nướng trên than đặc trưng Tây Tạng. Ăn sớm ~15:30 vì tàu 17:25 và về đến KMG lúc 22h.</div><div class="it-tags"><span class="itag fee">💰 Phụ thu 40 tệ/người</span></div></div></div>
+      <div class="it-entry go"><div class="it-tm">17:25</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚄</span><span class="it-ttl">Tàu cao tốc Shangrila → Côn Minh</span></div><div class="it-dsc">Chuyến 17:25 – 22:03. ~4h38. Ngủ trên tàu là chiến lược hay!</div><div class="it-tags"><span class="itag fee">💰 Phụ thu 90 tệ/vé</span></div></div></div>
+      <div class="it-entry sleep"><div class="it-tm">22:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🏨</span><span class="it-ttl">Nhận phòng · Kunming Long Way Hotel</span></div><div class="it-dsc">朗唯酒店 · cùng khách sạn đêm 1 · trung tâm Côn Minh. Ngủ ngon — ngày mai chuyến bay 15:55.</div><div class="it-tags"><span class="itag inc">✓ Phòng bao gồm</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- NGÀY 6 -->
+  <div class="it-day" id="it-d6">
+    <div class="it-head it-head-d6"><div class="it-head-top"><div class="it-daynum">Ngày 6 · Thứ Ba · NGÀY VỀ 🏠</div><div class="it-date">07/07/2026</div></div><div class="it-route">Côn Minh → Sài Gòn ✈️</div><div class="it-meals"><span class="it-meal">🌅 Sáng</span><span class="it-meal">🌸 Chợ Hoa</span><span class="it-meal">🌞 Trưa sớm</span></div><div class="it-ks">🏠 Bay về nhà!</div></div>
+    <svg class="it-scene" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FADBD8"/><stop offset="100%" stop-color="#FDEBD0"/></linearGradient></defs><rect width="360" height="72" fill="url(#sky6)"/><g><circle cx="25" cy="50" r="9" fill="#F1948A"/><circle cx="25" cy="50" r="4" fill="#E74C3C"/><line x1="25" y1="59" x2="25" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="50" cy="45" r="8" fill="#F8C471"/><circle cx="50" cy="45" r="3.5" fill="#F39C12"/><line x1="50" y1="53" x2="50" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="75" cy="52" r="10" fill="#82E0AA"/><circle cx="75" cy="52" r="4.5" fill="#27AE60"/><line x1="75" y1="62" x2="75" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="102" cy="46" r="8" fill="#AED6F1"/><circle cx="102" cy="46" r="3.5" fill="#2E86C1"/><line x1="102" y1="54" x2="102" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="127" cy="53" r="9" fill="#D7BDE2"/><circle cx="127" cy="53" r="4" fill="#8E44AD"/><line x1="127" y1="62" x2="127" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="152" cy="44" r="8" fill="#FABEBD"/><circle cx="152" cy="44" r="3.5" fill="#C0432B"/><line x1="152" y1="52" x2="152" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="178" cy="52" r="10" fill="#A9DFBF"/><circle cx="178" cy="52" r="4.5" fill="#1E8449"/><line x1="178" y1="62" x2="178" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="205" cy="47" r="8" fill="#FAD7A0"/><circle cx="205" cy="47" r="3.5" fill="#E67E22"/><line x1="205" y1="55" x2="205" y2="72" stroke="#27AE60" stroke-width="2"/><circle cx="230" cy="54" r="9" fill="#F9E4B7"/><circle cx="230" cy="54" r="4" fill="#CB9C40"/><line x1="230" y1="63" x2="230" y2="72" stroke="#27AE60" stroke-width="2"/></g><g transform="translate(272,12) rotate(22)"><path d="M0,0 L28,0 Q36,-2 36,4 Q36,10 28,8 L0,8Z" fill="#192542" opacity=".9"/><path d="M8,0 L20,-10 L24,-10 L18,0Z" fill="#192542"/><path d="M10,8 L20,18 L24,18 L18,8Z" fill="#192542"/><path d="M28,4 L38,-1 L40,0 L38,5Z" fill="#192542"/><circle cx="6" cy="4" r="2" fill="#E2C481"/></g><path d="M260,22 Q240,15 218,19 Q198,25 178,17" stroke="#fff" stroke-width="1.5" stroke-dasharray="4,3" fill="none" opacity=".6"/></svg>
+    <div class="it-tl">
+      <div class="it-entry eat"><div class="it-tm">06:30</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌅</span><span class="it-ttl">Ăn sáng + trả phòng</span></div><div class="it-dsc">Điểm tâm tại <b>Kunming Long Way Hotel</b>. Gói ghém hành lý, kiểm tra lại toàn bộ trước khi trả phòng.</div></div></div>
+      <div class="it-entry see"><div class="it-tm">08:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🌸</span><span class="it-ttl">Chợ Hoa Đấu Nam</span></div><div class="it-dsc">~50 phút di chuyển. Chợ hoa lớn nhất châu Á — hàng trăm loài hoa, giá cực rẻ. Check-in cực đẹp! Mua vài bó bỏ ký gửi mang về.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry eat"><div class="it-tm">10:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🍜</span><span class="it-ttl">Ăn trưa sớm · Bún Qua Cầu (过桥米线)</span></div><div class="it-dsc">Đặc sản số 1 Côn Minh — bún gạo, nước lèo gà/vịt nóng bỏng trong tô sứ lớn, ăn kèm thịt sống nhúng chín tại bàn. <b>Nhớ để nguội trước khi ăn!</b></div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry go"><div class="it-tm">11:00</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🚌</span><span class="it-ttl">Di chuyển ra sân bay Côn Minh</span></div><div class="it-dsc">Làm thủ tục check-in. Kiểm tra lại: hộ chiếu, hành lý, đồ mua sắm khai hải quan.</div><div class="it-tags"><span class="itag warn">📦 Hàng điện tử nhớ khai hải quan</span></div></div></div>
+      <div class="it-entry fly"><div class="it-tm">15:55</div><div class="it-c"><div class="it-c-top"><span class="it-ico">✈️</span><span class="it-ttl">Bay MU9633 · KMG → SGN 🏠</span></div><div class="it-dsc">China Eastern Airlines. Đến Tân Sơn Nhất ~18:10. Làm thủ tục nhập cảnh VN, chia tay đoàn.</div><div class="it-tags"><span class="itag inc">✓ Bao gồm</span></div></div></div>
+      <div class="it-entry sleep"><div class="it-tm">18:10</div><div class="it-c"><div class="it-c-top"><span class="it-ico">🎉</span><span class="it-ttl">Về đến Tân Sơn Nhất · Kết thúc!</span></div><div class="it-dsc">Hành trình Côn Minh – Đại Lý – Lệ Giang – Shangrila hoàn tất. Hẹn gặp lại ở những tour sau!</div><div class="it-tags"><span class="itag inc">✓ Hành trình hoàn tất 🏆</span></div></div></div>
+    </div>
+  </div>
+
+  </div><!-- /.w -->
+</div><!-- /panel-it -->
+
+<footer>🇨🇳 Chúc Quý khách chuyến đi Vân Nam vui và bình an! · 祝旅途愉快 · Zhù lǚtú yúkuài! 🏮</footer>
+
+<script>
+// ── TAB SWITCH ──
+function switchTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb-tab,.bn-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  // Sync all tab buttons (top + bottom) matching this panel id
+  document.querySelectorAll('.tb-tab,.bn-tab').forEach(t=>{
+    if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'")) t.classList.add('active');
+  });
+  const right = document.getElementById('tb-right');
+  right.style.display = id==='cl' ? 'flex' : 'none';
+  const lb = document.getElementById('lanternBox');
+  lb.style.display = id==='cl' ? 'flex' : 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── CHECKLIST LOGIC ──
+const checks = Array.from(document.querySelectorAll('#panel-cl .chip input[type="checkbox"]'));
+const total = checks.length;
+function updChecklist(){
+  const n = checks.filter(b=>b.checked).length;
+  const p = total ? Math.round(n/total*100) : 0;
+  document.getElementById('tbf').style.width = p+'%';
+  document.getElementById('tbn').textContent = n+'/'+total;
+  const h = 110*p/100;
+  document.getElementById('lfr').setAttribute('y', 125-h);
+  document.getElementById('lfr').setAttribute('height', h);
+  document.getElementById('lp').textContent = p+'%';
+  document.getElementById('lsvg').classList.toggle('glow', p>=60);
+  const msgs = ['Tick các mục để thắp sáng đèn lồng.','Đang chuẩn bị — tiếp tục nhé!','Sắp xong rồi, cố lên!','🎉 Sẵn sàng lên đường!'];
+  document.getElementById('ls').textContent = p===100?msgs[3]:p>=50?msgs[2]:p>0?msgs[1]:msgs[0];
+}
+checks.forEach(b=>b.addEventListener('change',updChecklist));
+document.getElementById('resetBtn').onclick=()=>{checks.forEach(b=>b.checked=false);updChecklist();};
+updChecklist();
+
+// ── PHRASEBOOK LOGIC ──
+const pbPills = document.querySelectorAll('.pb-pill');
+const pbSecs = document.querySelectorAll('.pb-sec');
+const pbCards = document.querySelectorAll('.pc');
+
+pbPills.forEach(pill=>{
+  pill.addEventListener('click',e=>{
+    e.preventDefault();
+    pbPills.forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');
+    const cat = pill.dataset.cat;
+    pbSecs.forEach(s=>{
+      s.style.display = (cat==='all'||s.dataset.s===cat) ? '' : 'none';
+    });
+    document.getElementById('srch').value='';
+    pbCards.forEach(c=>c.classList.remove('hidden'));
+    pbSecs.forEach(s=>s.classList.remove('pb-hidden'));
+  });
+});
+
+document.getElementById('srch').addEventListener('input',function(){
+  const q = this.value.toLowerCase().trim();
+  pbPills.forEach(p=>p.classList.remove('active'));
+  pbPills[0].classList.add('active');
+  pbSecs.forEach(s=>s.style.display='');
+  if(!q){pbCards.forEach(c=>c.classList.remove('hidden'));pbSecs.forEach(s=>s.classList.remove('pb-hidden'));return;}
+  pbCards.forEach(c=>c.classList.toggle('hidden',!c.textContent.toLowerCase().includes(q)));
+  pbSecs.forEach(s=>{
+    const vis = s.querySelectorAll('.pc:not(.hidden)');
+    s.classList.toggle('pb-hidden',vis.length===0);
+  });
+});
+
+// ── ITINERARY DAY SWITCH ──
+const dayPills = document.querySelectorAll('.it-dp');
+const dayPanels = document.querySelectorAll('.it-day');
+dayPills.forEach(pill=>{
+  pill.addEventListener('click',e=>{
+    e.preventDefault();
+    dayPills.forEach(p=>p.classList.remove('active'));
+    dayPanels.forEach(d=>d.classList.remove('active'));
+    pill.classList.add('active');
+    const d = document.getElementById('it-d'+pill.dataset.day);
+    if(d) d.classList.add('active');
+  });
+});
+
+// ══════════════════════════════
+// TEXT-TO-SPEECH  🔊
+// ══════════════════════════════
+const ttsSupported = 'speechSynthesis' in window;
+
+// ── Voice loader: wait for voices to be ready ──
+let _voices = [];
+function _loadVoices(){ _voices = window.speechSynthesis.getVoices(); }
+if(ttsSupported){
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+// ── Smart voice picker ──
+// EN: prefers Google UK > Microsoft Libby/Hazel > Samantha (macOS) > Karen (AU) > any en-GB > en-US
+// ZH: prefers Google Mandarin > Microsoft Huihui > Ting-Ting > any zh-CN
+function _bestVoice(lang){
+  if(!_voices.length) _loadVoices();
+  const isZh = lang.startsWith('zh');
+  const enPref = [
+    'Google UK English Female','Google UK English Male',
+    'Microsoft Libby Online (Natural) - English (United Kingdom)',
+    'Microsoft Hazel Desktop - English (Great Britain)',
+    'Microsoft Zira - English (United States)',
+    'Samantha','Karen','Moira','Fiona','Serena',
+  ];
+  const zhPref = [
+    'Google 普通话（中国大陆）','Google Chinese (Mandarin)',
+    'Microsoft Huihui - Chinese (Simplified, PRC)',
+    'Microsoft Yaoyao - Chinese (Simplified, PRC)',
+    'Ting-Ting','Sin-ji','Meijia',
+  ];
+  const prefs = isZh ? zhPref : enPref;
+  const prefix = isZh ? 'zh' : 'en-GB'; // prefer GB for EN
+
+  // Try preferred names (partial match)
+  for(const name of prefs){
+    const v = _voices.find(v => v.name === name || v.name.startsWith(name.split(' ').slice(0,2).join(' ')));
+    if(v) return v;
+  }
+  // Prefer online/network voices (better quality)
+  const online = _voices.filter(v => v.lang.startsWith(isZh ? 'zh' : 'en') && !v.localService);
+  if(online.length) return online.find(v=>v.lang.startsWith(isZh?'zh':'en-GB')) || online[0];
+  // Prefer en-GB over en-US as fallback
+  if(!isZh){
+    const gb = _voices.find(v => v.lang === 'en-GB');
+    if(gb) return gb;
+  }
+  return _voices.find(v => v.lang.startsWith(isZh ? 'zh' : 'en')) || null;
+}
+
+function speak(text, lang, btn) {
+  if(!ttsSupported) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  const voice = _bestVoice(lang);
+  if(voice){ u.voice = voice; u.lang = voice.lang; }
+  else { u.lang = lang; }
+  u.rate  = 0.86;
+  u.pitch = 1.05;
+  if(btn){
+    document.querySelectorAll('.spk-btn.speaking,.place-spk.speaking').forEach(b=>b.classList.remove('speaking'));
+    btn.classList.add('speaking');
+    u.onend  = () => btn.classList.remove('speaking');
+    u.onerror = () => btn.classList.remove('speaking');
+  }
+  window.speechSynthesis.speak(u);
+}
+
+function mkSpkBtn(text, lang, extraClass) {
+  const btn = document.createElement('button');
+  btn.className = extraClass || 'spk-btn';
+  btn.textContent = '🔊';
+  const isZh = lang.startsWith('zh');
+  btn.title = isZh ? 'Nghe phát âm tiếng Trung (ZH)' : 'Nghe phát âm tiếng Anh (EN)';
+  btn.setAttribute('aria-label', btn.title);
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    speak(text, lang, btn);
+  });
+  return btn;
+}
+
+function injectTTSButtons() {
+  if(!ttsSupported) return;
+
+  // ── Phrase cards (.pc) ──
+  document.querySelectorAll('.pc').forEach(card => {
+    const enEl = card.querySelector('.ent');
+    if(enEl && !enEl.previousElementSibling?.classList.contains('spk-btn')) {
+      enEl.before(mkSpkBtn(enEl.textContent.trim(), 'en-US'));
+    }
+    const zhEl = card.querySelector('.zch');
+    if(zhEl) {
+      const zhWrap = zhEl.parentElement;
+      if(!zhWrap.previousElementSibling?.classList.contains('spk-btn')) {
+        zhWrap.before(mkSpkBtn(zhEl.textContent.trim(), 'zh-CN'));
+      }
+    }
+  });
+
+  // ── Number grid items (.ni) — click whole card to hear ──
+  document.querySelectorAll('.ni').forEach(ni => {
+    if(ni.dataset.tts) return;
+    ni.dataset.tts = '1';
+    const nn = ni.querySelector('.nn');
+    const np = ni.querySelector('.np');
+    if(!nn) return;
+    ni.title = '🔊 ' + (np?.textContent || nn.textContent);
+    ni.addEventListener('click', () => {
+      document.querySelectorAll('.ni.ni-speaking').forEach(x => x.classList.remove('ni-speaking'));
+      ni.classList.add('ni-speaking');
+      speak(nn.textContent.trim(), 'zh-CN', null);
+      setTimeout(() => ni.classList.remove('ni-speaking'), 1800);
+    });
+  });
+
+  // ── Place name cards (.place-card) ──
+  document.querySelectorAll('.place-card').forEach(card => {
+    if(card.querySelector('.place-spk-row')) return;
+    const zhEl = card.querySelector('.place-zch');
+    const enEl = card.querySelector('.place-en');
+    const row  = document.createElement('div');
+    row.className = 'place-spk-row';
+    if(zhEl) {
+      const b = mkSpkBtn(zhEl.textContent.trim(), 'zh-CN', 'place-spk');
+      b.innerHTML = '🔊 <span>ZH</span>';
+      row.appendChild(b);
+    }
+    if(enEl) {
+      const b = mkSpkBtn(enEl.textContent.trim(), 'en-US', 'place-spk');
+      b.innerHTML = '🔊 <span>EN</span>';
+      row.appendChild(b);
+    }
+    if(row.children.length) card.appendChild(row);
+  });
+}
+
+// ── SERVICE WORKER — cache this file for offline use ──
+if('serviceWorker' in navigator) {
+  // Inline SW as a blob so no separate file is needed
+  const swCode = `
+const CACHE = 'camnangtq-v1';
+const FILES = [location.href];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+  )));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});
+  `;
+  const blob = new Blob([swCode], {type:'application/javascript'});
+  const url  = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
+
+// ── OFFLINE STATUS INDICATOR ──
+function updateOnlineStatus() {
+  const bar = document.getElementById('offlineBanner');
+  if(!bar) return;
+  if(navigator.onLine) {
+    bar.style.display = 'none';
+  } else {
+    bar.style.display = 'flex';
+  }
+}
+window.addEventListener('online',  updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+// Run after short delay to ensure all DOM is rendered
+setTimeout(injectTTSButtons, 350);
+</script>
+<!-- ══ BOTTOM NAVIGATION (mobile) ══ -->
+<nav class="bn" id="bn">
+  <button class="bn-tab active" onclick="switchTab('cl',this)">
+    <span class="bn-icon">📋</span>
+    <span class="bn-label">Checklist</span>
+  </button>
+  <button class="bn-tab" onclick="switchTab('pb',this)">
+    <span class="bn-icon">🗣️</span>
+    <span class="bn-label">Phrasebook</span>
+  </button>
+  <button class="bn-tab" onclick="switchTab('it',this)">
+    <span class="bn-icon">📅</span>
+    <span class="bn-label">Lịch trình</span>
+  </button>
+</nav>
+
+</body>
+</html>
