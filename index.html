@@ -1254,8 +1254,8 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--
     <!-- FROM field -->
     <div class="cx-field-label">Số tiền</div>
     <div class="cx-field" id="cxFromField">
-      <input class="cx-field-input" id="cxFromIn" type="number" inputmode="decimal"
-        placeholder="0" oninput="cxCalc('from')" onfocus="this.select()">
+      <input class="cx-field-input" id="cxFromIn" type="text" inputmode="decimal"
+        placeholder="0" oninput="cxTypeFrom(this)" onfocus="cxFocusIn(this)">
       <button class="cx-cur-btn" id="cxFromBtn" onclick="cxOpenDrop('from')">
         <span class="cx-cur-flag" id="cxFromFlag">🇨🇳</span>
         <span id="cxFromCode">CNY</span>
@@ -1271,8 +1271,8 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--
     <!-- TO field -->
     <div class="cx-field-label">Chuyển đổi thành</div>
     <div class="cx-field" id="cxToField">
-      <input class="cx-field-input" id="cxToIn" type="number" inputmode="decimal"
-        placeholder="0" oninput="cxCalc('to')" onfocus="this.select()">
+      <input class="cx-field-input" id="cxToIn" type="text" inputmode="decimal"
+        placeholder="0" oninput="cxTypeTo(this)" onfocus="cxFocusIn(this)">
       <button class="cx-cur-btn" id="cxToBtn" onclick="cxOpenDrop('to')">
         <span class="cx-cur-flag" id="cxToFlag">🇻🇳</span>
         <span id="cxToCode">VND</span>
@@ -1553,12 +1553,43 @@ let cxToCur   = 'VND';
 let cxDropSide = 'from'; // which side the dropdown is editing
 
 // ── Formatting ──
+function cxParse(str) {
+  if (!str) return 0;
+  // Strip thousand separators (dots in vi-VN), allow comma as decimal
+  return parseFloat(str.replace(/\./g,'').replace(',','.')) || 0;
+}
 function cxFmt(n, cur) {
   if (!n && n !== 0) return '';
   if (cur === 'VND') return new Intl.NumberFormat('vi-VN').format(Math.round(n));
-  if (cur === 'USD') return new Intl.NumberFormat('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
-  return new Intl.NumberFormat('vi-VN', {maximumFractionDigits:2}).format(n);
+  if (cur === 'USD') return new Intl.NumberFormat('vi-VN', {maximumFractionDigits:2}).format(
+    Math.round(n * 100) / 100);
+  // CNY or other
+  return new Intl.NumberFormat('vi-VN', {maximumFractionDigits:2}).format(
+    Math.round(n * 100) / 100);
 }
+// Format for display in input fields (with dots)
+function cxFmtInp(n, cur) {
+  if (!n) return '';
+  return cxFmt(n, cur);
+}
+// Live format while typing (keep cursor position)
+function cxLiveFmt(inp) {
+  const pos  = inp.selectionStart;
+  const old  = inp.value;
+  const raw  = old.replace(/[^\d]/g, '');       // digits only
+  if (!raw) { inp.value = ''; return; }
+  const num  = parseInt(raw, 10);
+  inp.value  = new Intl.NumberFormat('vi-VN').format(num);
+  // Restore cursor: account for added dots
+  const diff = inp.value.length - old.length;
+  inp.selectionStart = inp.selectionEnd = Math.max(0, pos + diff);
+}
+function cxFocusIn(inp) {
+  // Select all on focus for easy replacement
+  setTimeout(() => inp.select(), 0);
+}
+function cxTypeFrom(inp) { cxLiveFmt(inp); cxCalc('from'); }
+function cxTypeTo(inp)   { cxLiveFmt(inp); cxCalc('to');   }
 function cxApprox(n, cur) {
   if (!n) return '';
   if (cur === 'VND') {
@@ -1600,17 +1631,15 @@ function cxUpdateLabels() {
 function cxCalc(direction) {
   const rate = cxRate(cxFromCur, cxToCur);
   if (direction === 'from') {
-    const v = parseFloat(document.getElementById('cxFromIn').value) || 0;
+    const v = cxParse(document.getElementById('cxFromIn').value);
     const r = v * rate;
-    const toEl = document.getElementById('cxToIn');
-    toEl.value = v ? (cxToCur === 'VND' ? Math.round(r) : parseFloat(r.toFixed(4))) : '';
+    document.getElementById('cxToIn').value = v ? cxFmtInp(r, cxToCur) : '';
     document.getElementById('cxApprox').textContent = cxApprox(r, cxToCur);
     cxHighlightQuick(v);
   } else {
-    const v = parseFloat(document.getElementById('cxToIn').value) || 0;
+    const v = cxParse(document.getElementById('cxToIn').value);
     const r = v / rate;
-    const fromEl = document.getElementById('cxFromIn');
-    fromEl.value = v ? (cxFromCur === 'VND' ? Math.round(r) : parseFloat(r.toFixed(4))) : '';
+    document.getElementById('cxFromIn').value = v ? cxFmtInp(r, cxFromCur) : '';
     document.getElementById('cxApprox').textContent = cxApprox(v, cxToCur);
     cxHighlightQuick(r);
   }
@@ -1624,7 +1653,7 @@ function cxHighlightQuick(val) {
 
 // ── Quick buttons ──
 function cxQuick(amount) {
-  document.getElementById('cxFromIn').value = amount;
+  document.getElementById('cxFromIn').value = cxFmtInp(amount, cxFromCur);
   cxCalc('from');
 }
 
