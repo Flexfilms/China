@@ -359,6 +359,134 @@ body{-webkit-tap-highlight-color:transparent;}
 .pb-cats,.it-daypills,.cats{-ms-overflow-style:none;scrollbar-width:none;}
 .pb-cats::-webkit-scrollbar,.it-daypills::-webkit-scrollbar,.cats::-webkit-scrollbar{display:none;}
 
+/* ════════════════════════════════
+   CURRENCY CONVERTER  💱
+════════════════════════════════ */
+.cx-sticky{
+  position:sticky;top:46px;z-index:39;
+  background:rgba(10,6,18,.97);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(203,156,64,.3);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+}
+.cx-rate-label{font-size:11px;color:var(--mist);font-weight:500;}
+.cx-rate-val{
+  display:flex;align-items:center;gap:6px;
+  font-size:14px;font-weight:700;color:var(--gold-l);
+}
+.cx-rate-edit{
+  background:rgba(203,156,64,.15);border:1px solid rgba(203,156,64,.3);
+  border-radius:6px;color:var(--gold-l);font-size:11px;font-weight:700;
+  padding:3px 8px;cursor:pointer;transition:background .15s;
+}
+.cx-rate-edit:hover{background:rgba(203,156,64,.28);}
+.cx-rate-editing{display:flex;align-items:center;gap:6px;}
+.cx-rate-input{
+  width:80px;background:rgba(255,255,255,.08);border:1px solid rgba(203,156,64,.5);
+  border-radius:6px;color:#fff;font-size:14px;font-weight:700;
+  padding:3px 8px;text-align:center;font-family:var(--f-sans);
+  -webkit-appearance:none;
+}
+.cx-main{padding:14px 0 8px;}
+/* Quick buttons */
+.cx-quick{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:0 0 12px;}
+.cx-qbtn{
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:11px 4px;text-align:center;cursor:pointer;
+  font-size:13px;font-weight:700;color:var(--ink);
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.cx-qbtn span{display:block;font-size:9.5px;color:var(--mist);font-weight:500;margin-top:2px;}
+.cx-qbtn.active{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+.cx-qbtn.active span{color:var(--gold-l);}
+.cx-qbtn:active{transform:scale(.93);}
+/* Main card */
+.cx-card{
+  background:linear-gradient(140deg,#130408,#0D1B35);
+  border:1px solid rgba(203,156,64,.2);border-radius:20px;
+  padding:22px 20px 18px;margin-bottom:12px;position:relative;overflow:hidden;
+}
+.cx-card::before{
+  content:'元';position:absolute;right:-10px;top:-20px;
+  font-size:120px;font-weight:700;color:rgba(203,156,64,.05);
+  font-family:var(--f-zh);pointer-events:none;
+}
+.cx-flag-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.cx-flag{font-size:18px;}
+.cx-cur-name{font-size:11px;font-weight:700;color:var(--mist);text-transform:uppercase;letter-spacing:.06em;}
+.cx-display{
+  font-size:42px;font-weight:700;color:#fff;
+  font-variant-numeric:tabular-nums;letter-spacing:-.5px;
+  min-height:52px;display:flex;align-items:center;gap:4px;
+  margin-bottom:4px;
+}
+.cx-display-unit{font-size:22px;color:var(--gold-l);font-weight:600;}
+.cx-arrow-row{
+  display:flex;align-items:center;gap:10px;margin:10px 0;
+}
+.cx-arrow-line{flex:1;height:1px;background:rgba(255,255,255,.1);}
+.cx-arrow-icon{font-size:18px;opacity:.6;}
+.cx-result-vnd{
+  font-size:32px;font-weight:700;color:var(--gold-l);
+  font-variant-numeric:tabular-nums;letter-spacing:-.3px;
+  min-height:40px;
+}
+.cx-result-approx{
+  font-size:13px;color:rgba(226,196,129,.6);margin-top:4px;
+  font-weight:500;
+}
+/* Numpad */
+.cx-numpad{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:14px;
+}
+.cx-key{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:16px 8px;text-align:center;cursor:pointer;
+  font-size:22px;font-weight:600;color:var(--ink);
+  transition:all .12s;-webkit-tap-highlight-color:transparent;
+  min-height:58px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px -4px rgba(0,0,0,.12);
+}
+.cx-key:active{background:var(--paper);transform:scale(.92);}
+.cx-key.cx-del{background:#FEF3F1;border-color:#FABDB5;color:var(--red);}
+.cx-key.cx-clr{background:var(--indigo);color:#fff;border-color:var(--indigo);font-size:13px;font-weight:700;}
+.cx-key.cx-zero{font-size:22px;}
+/* Reverse card */
+.cx-rev-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px;margin-bottom:14px;
+}
+.cx-rev-title{font-size:11px;font-weight:700;color:var(--mist);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.cx-rev-row{display:flex;align-items:center;gap:10px;}
+.cx-rev-input{
+  flex:1;background:#fff;border:1.5px solid var(--line);border-radius:10px;
+  padding:11px 13px;font-size:18px;font-weight:700;color:var(--ink);
+  font-family:var(--f-sans);font-variant-numeric:tabular-nums;
+  -webkit-appearance:none;outline:none;
+}
+.cx-rev-input:focus{border-color:var(--gold);}
+.cx-rev-result{
+  font-size:18px;font-weight:700;color:var(--jade-d);
+  min-width:110px;text-align:right;
+}
+/* Ref table */
+.cx-ref{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:8px;}
+.cx-ref-head{
+  background:var(--indigo);color:var(--gold-l);
+  font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:8px 14px;display:flex;justify-content:space-between;
+}
+.cx-ref-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 14px;border-bottom:1px solid var(--line);
+  cursor:pointer;transition:background .1s;
+}
+.cx-ref-row:last-child{border-bottom:none;}
+.cx-ref-row:active{background:var(--paper);}
+.cx-ref-rmb{font-size:14px;font-weight:700;color:var(--ink);}
+.cx-ref-vnd{font-size:14px;font-weight:700;color:var(--red-d);}
+.cx-ref-approx{font-size:11px;color:var(--mist);margin-top:1px;}
+
 /* ── OFFLINE BANNER ── */
 #offlineBanner{
   display:none;position:fixed;top:0;left:0;right:0;z-index:999;
@@ -454,6 +582,7 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--
       <button class="tb-tab active" onclick="switchTab('cl',this)">📋 Checklist</button>
       <button class="tb-tab" onclick="switchTab('pb',this)">🗣️ Phrasebook</button>
       <button class="tb-tab" onclick="switchTab('it',this)">📅 Lịch trình</button>
+      <button class="tb-tab" onclick="switchTab('cx',this)">💱 Đổi tệ</button>
     </div>
     <div class="tb-right" id="tb-right">
       <div class="tb-bar"><div class="tb-fill" id="tbf"></div></div>
@@ -1063,6 +1192,144 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--
   </div><!-- /.w -->
 </div><!-- /panel-it -->
 
+<!-- ══════════════════════════════════
+     PANEL 4 — CURRENCY CONVERTER 💱
+══════════════════════════════════ -->
+<div class="panel" id="panel-cx">
+
+  <!-- Sticky rate bar -->
+  <div class="cx-sticky">
+    <div>
+      <div class="cx-rate-label">Tỷ giá hiện tại</div>
+      <div class="cx-rate-val">
+        1 元 = <span id="cxRateDisplay">3,950</span> ₫
+      </div>
+    </div>
+    <button class="cx-rate-edit" onclick="cxEditRate()">✏️ Sửa tỷ giá</button>
+  </div>
+
+  <div class="w cx-main">
+
+    <!-- Quick amount buttons -->
+    <div class="cx-quick">
+      <button class="cx-qbtn" onclick="cxQuick(1)">1<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(5)">5<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(10)">10<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(20)">20<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(50)">50<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(100)">100<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(200)">200<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(500)">500<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(1000)">1000<span>元</span></button>
+      <button class="cx-qbtn" onclick="cxQuick(2000)">2000<span>元</span></button>
+    </div>
+
+    <!-- Main converter card: RMB → VND -->
+    <div class="cx-card">
+      <div class="cx-flag-row">
+        <span class="cx-flag">🇨🇳</span>
+        <span class="cx-cur-name">Nhân dân tệ (元 · RMB)</span>
+      </div>
+      <div class="cx-display">
+        <span id="cxDisplay">0</span>
+        <span class="cx-display-unit">元</span>
+      </div>
+      <div class="cx-arrow-row">
+        <div class="cx-arrow-line"></div>
+        <span class="cx-arrow-icon">⬇️</span>
+        <div class="cx-arrow-line"></div>
+      </div>
+      <div class="cx-flag-row">
+        <span class="cx-flag">🇻🇳</span>
+        <span class="cx-cur-name">Việt Nam Đồng (₫ · VND)</span>
+      </div>
+      <div class="cx-result-vnd" id="cxVndResult">—</div>
+      <div class="cx-result-approx" id="cxApprox"></div>
+    </div>
+
+    <!-- Custom numpad -->
+    <div class="cx-numpad">
+      <button class="cx-key" onclick="cxNum(7)">7</button>
+      <button class="cx-key" onclick="cxNum(8)">8</button>
+      <button class="cx-key" onclick="cxNum(9)">9</button>
+      <button class="cx-key" onclick="cxNum(4)">4</button>
+      <button class="cx-key" onclick="cxNum(5)">5</button>
+      <button class="cx-key" onclick="cxNum(6)">6</button>
+      <button class="cx-key" onclick="cxNum(1)">1</button>
+      <button class="cx-key" onclick="cxNum(2)">2</button>
+      <button class="cx-key" onclick="cxNum(3)">3</button>
+      <button class="cx-key cx-clr" onclick="cxClear()">C</button>
+      <button class="cx-key cx-zero" onclick="cxNum(0)">0</button>
+      <button class="cx-key cx-del" onclick="cxDel()">⌫</button>
+    </div>
+
+    <!-- Reverse: VND → RMB -->
+    <div class="cx-rev-card">
+      <div class="cx-rev-title">
+        <span>🇻🇳</span> VND → Tệ (nhập số đồng)
+      </div>
+      <div class="cx-rev-row">
+        <input class="cx-rev-input" id="cxVndIn" type="number" inputmode="numeric"
+          placeholder="0 ₫" oninput="cxUpdateVnd()">
+        <div class="cx-rev-result" id="cxRmbOut">= — 元</div>
+      </div>
+    </div>
+
+    <!-- Quick reference table -->
+    <div class="cx-ref">
+      <div class="cx-ref-head">
+        <span>Tệ (元)</span>
+        <span>≈ Tiền Việt</span>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(1)">
+        <div><div class="cx-ref-rmb">1 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref1"></div><div class="cx-ref-approx">≈ 4 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(5)">
+        <div><div class="cx-ref-rmb">5 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref5"></div><div class="cx-ref-approx">≈ 20 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(10)">
+        <div><div class="cx-ref-rmb">10 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref10"></div><div class="cx-ref-approx">≈ 40 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(20)">
+        <div><div class="cx-ref-rmb">20 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref20"></div><div class="cx-ref-approx">≈ 79 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(50)">
+        <div><div class="cx-ref-rmb">50 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref50"></div><div class="cx-ref-approx">≈ 198 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(100)">
+        <div><div class="cx-ref-rmb">100 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref100"></div><div class="cx-ref-approx">≈ 395 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(200)">
+        <div><div class="cx-ref-rmb">200 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref200"></div><div class="cx-ref-approx">≈ 790 nghìn</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(500)">
+        <div><div class="cx-ref-rmb">500 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref500"></div><div class="cx-ref-approx">≈ 2 triệu</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(1000)">
+        <div><div class="cx-ref-rmb">1.000 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref1000"></div><div class="cx-ref-approx">≈ 4 triệu</div></div>
+      </div>
+      <div class="cx-ref-row" onclick="cxQuick(2000)">
+        <div><div class="cx-ref-rmb">2.000 元</div></div>
+        <div style="text-align:right"><div class="cx-ref-vnd" id="ref2000"></div><div class="cx-ref-approx">≈ 8 triệu</div></div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:var(--mist);text-align:center;padding:6px 0 20px;">
+      Bấm vào bất kỳ hàng nào trong bảng để chọn nhanh · Tỷ giá có thể chỉnh sửa trên
+    </p>
+
+  </div>
+</div><!-- /panel-cx -->
+
 <footer>🇨🇳 Chúc Quý khách chuyến đi Vân Nam vui và bình an! · 祝旅途愉快 · Zhù lǚtú yúkuài! 🏮</footer>
 
 <script>
@@ -1287,6 +1554,99 @@ function injectTTSButtons() {
   });
 }
 
+// ══════════════════════════════
+// CURRENCY CONVERTER 💱
+// ══════════════════════════════
+let CX_RATE = 3950;
+let cxRmbVal = 0; // current RMB amount
+
+const CX_REFS = [1,5,10,20,50,100,200,500,1000,2000];
+
+function fmtVnd(n) {
+  return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' ₫';
+}
+function fmtRmb(n) {
+  const r = Math.round(n * 10) / 10;
+  return '= ' + new Intl.NumberFormat('vi-VN', {maximumFractionDigits:1}).format(r) + ' 元';
+}
+function approxVnd(n) {
+  if (!n) return '';
+  if (n >= 1e9)  return '≈ ' + (n/1e9).toFixed(1).replace('.0','')  + ' tỷ';
+  if (n >= 1e6)  return '≈ ' + (n/1e6).toFixed(1).replace('.0','')  + ' triệu';
+  if (n >= 1e3)  return '≈ ' + (n/1e3).toFixed(0) + ' nghìn';
+  return '';
+}
+
+function cxRender() {
+  // Main display
+  const disp = document.getElementById('cxDisplay');
+  if (disp) disp.textContent = cxRmbVal
+    ? new Intl.NumberFormat('vi-VN').format(cxRmbVal) : '0';
+
+  const vnd = cxRmbVal * CX_RATE;
+  const vndEl = document.getElementById('cxVndResult');
+  if (vndEl) vndEl.textContent = cxRmbVal ? fmtVnd(vnd) : '—';
+
+  const apx = document.getElementById('cxApprox');
+  if (apx) apx.textContent = cxRmbVal ? approxVnd(vnd) : '';
+
+  // Highlight active quick button
+  document.querySelectorAll('.cx-qbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cx-qbtn').forEach(b => {
+    if (parseFloat(b.getAttribute('onclick').match(/cxQuick\(([^)]+)\)/)?.[1]) === cxRmbVal)
+      b.classList.add('active');
+  });
+
+  // Update ref table
+  CX_REFS.forEach(r => {
+    const el = document.getElementById('ref'+r);
+    if (el) el.textContent = fmtVnd(r * CX_RATE);
+  });
+
+  // Update rate display
+  const rd = document.getElementById('cxRateDisplay');
+  if (rd) rd.textContent = new Intl.NumberFormat('vi-VN').format(CX_RATE);
+}
+
+function cxNum(n) {
+  // Append digit, max 6 digits
+  const s = String(cxRmbVal);
+  if (s.replace(/[^0-9]/g,'').length >= 6) return;
+  cxRmbVal = cxRmbVal === 0 ? n : parseFloat(s + n);
+  cxRender();
+}
+function cxDel() {
+  const s = String(cxRmbVal);
+  cxRmbVal = s.length <= 1 ? 0 : parseFloat(s.slice(0,-1)) || 0;
+  cxRender();
+}
+function cxClear() { cxRmbVal = 0; cxRender(); }
+function cxQuick(amount) { cxRmbVal = amount; cxRender(); }
+
+function cxUpdateVnd() {
+  const raw = document.getElementById('cxVndIn')?.value || '';
+  const vnd = parseFloat(raw.replace(/[^\d.]/g,'')) || 0;
+  const out = document.getElementById('cxRmbOut');
+  if (out) out.textContent = vnd ? fmtRmb(vnd / CX_RATE) : '= — 元';
+}
+
+function cxEditRate() {
+  const cur = CX_RATE;
+  const input = prompt('Nhập tỷ giá mới (VND / 1 tệ):\nVD: 3950', cur);
+  if (!input) return;
+  const n = parseFloat(input.replace(/[^\d.]/g,''));
+  if (n > 0) {
+    CX_RATE = n;
+    cxRender();
+    cxUpdateVnd();
+    // Update all ref approx texts dynamically
+  }
+}
+
+// Init on first render
+document.addEventListener('DOMContentLoaded', () => cxRender());
+setTimeout(cxRender, 100);
+
 // ── SERVICE WORKER — cache this file for offline use ──
 if('serviceWorker' in navigator) {
   // Inline SW as a blob so no separate file is needed
@@ -1342,6 +1702,10 @@ setTimeout(injectTTSButtons, 350);
   <button class="bn-tab" onclick="switchTab('it',this)">
     <span class="bn-icon">📅</span>
     <span class="bn-label">Lịch trình</span>
+  </button>
+  <button class="bn-tab" onclick="switchTab('cx',this)">
+    <span class="bn-icon">💱</span>
+    <span class="bn-label">Đổi tệ</span>
   </button>
 </nav>
 
